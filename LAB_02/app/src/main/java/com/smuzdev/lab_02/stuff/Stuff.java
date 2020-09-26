@@ -2,13 +2,14 @@ package com.smuzdev.lab_02.stuff;
 
 import android.util.Log;
 
-import com.smuzdev.lab_02.MainActivity;
 import com.smuzdev.lab_02.educationManager.IAction;
 import com.smuzdev.lab_02.educationManager.Manager;
 import com.smuzdev.lab_02.exception.EduException;
 import com.smuzdev.lab_02.units.Person;
+import com.smuzdev.lab_02.units.Student;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Stuff implements IAction {
     String name;
@@ -26,7 +27,7 @@ public class Stuff implements IAction {
         if(!studentList.contains(person)) {
             if(studentList.size()<maxQuantityStudents){
                 studentList.add(person);
-                Log.i("Person", "One listener joined courses.");
+                Log.i("Person", "Listener " + person.name + " joined courses.");
             }
             else {
                 throw new EduException("No free places for listeners");
@@ -37,7 +38,7 @@ public class Stuff implements IAction {
     public void printPersonsOnStuff() throws EduException {
         if (studentList!=null) {
             for (Person person:studentList) {
-                person.toString();
+                Log.i("Person", person.toString());
             }
         }
         else {
@@ -46,10 +47,22 @@ public class Stuff implements IAction {
     }
 
     public void sortStudentsByRate() {
+        if(!studentList.isEmpty()) {
+            Collections.sort(studentList, Collections.reverseOrder());
+            Log.i("Person" ,"SORTING LISTENERS BY RATE:");
 
+            for (Person person:studentList) {
+                person.toString();
+            }
+        }
     }
 
     public void sortStudentsByAge() {
+        Collections.sort(studentList, Student.StudentAgeComparator);
+        Log.i("Person" ,"SORTING LISTENERS BY AGE:");
 
+        for (Person person:studentList) {
+            person.toString();
+        }
     }
 }

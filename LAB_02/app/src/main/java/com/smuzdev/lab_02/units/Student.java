@@ -17,8 +17,8 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        Log.i("Student", "Имя: " + name + " " + "Age: " + age + "Rate: " + rate);
-        return super.toString();
+        Log.i("Person", "Name: " + name + " " + "Age: " + age + " " + "Rate: " + rate);
+        return "";
     }
 
     @Override
@@ -27,9 +27,9 @@ public class Student extends Person {
         return rate-this.rate;
     }
 
-    public static Comparator<Student> StudentAgeComporator = new Comparator<Student>() {
+    public static Comparator<Person> StudentAgeComparator = new Comparator<Person>() {
         @Override
-        public int compare(Student student1, Student student2) {
+        public int compare(Person student1, Person student2) {
             Integer student1Age = student1.age;
             Integer student2Age = student2.age;
             return student1Age.compareTo(student2Age);
