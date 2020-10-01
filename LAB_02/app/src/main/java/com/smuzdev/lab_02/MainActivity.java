@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_WRITE = 1001;
     private boolean permissionGranted;
     ArrayList<Student> listeners;
+    Button serializeButton;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -59,16 +61,15 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < 4; i++) {
             try {
-                int randomListener = ThreadLocalRandom.current().nextInt(0, 7);
+                int randomListener = ThreadLocalRandom.current().nextInt(0, 5);
                 SoftwareTestingStuff.addPersonToStuff(listeners.get(randomListener));
-            }
-            catch (EduException ex) {
+            } catch (EduException ex) {
                 Log.i("Person", ex.getMessage());
             }
         }
 
         try {
-            Log.i("Person", "ALL LISTENERS:" );
+            Log.i("Person", "ALL LISTENERS:");
             SoftwareTestingStuff.printPersonsOnStuff();
         } catch (EduException e) {
             e.printStackTrace();
@@ -77,34 +78,34 @@ public class MainActivity extends AppCompatActivity {
         SoftwareTestingStuff.sortStudentsByRate();
         SoftwareTestingStuff.sortStudentsByAge();
 
+        serializeButton = findViewById(R.id.serializeButton);
+        serializeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!permissionGranted) {
+                    checkPermissions();
+                }
+                Gson gson = new Gson();
+                File file = new File(Environment.getExternalStorageDirectory(), "Lab_2.txt");
+                FileWriter fw = null;
 
-    }
+                try {
+                    fw = new FileWriter(file, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(gson.toJson(listeners));
+                    Log.i("Person", "The collection has been successfully serialized.");
+                    bw.close();
+                    fw.close();
+                }
 
-    public void onSerializeButtonClick(View view) {
-
-        Gson gson = new Gson();
-        if(!permissionGranted){
-            checkPermissions();
-            return;}
-        File file = new File(Environment.getExternalStorageDirectory(), "Lab_2.txt");
-
-        FileWriter fw = null;
-
-
-        try {
-            fw = new FileWriter(file, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(gson.toJson(listeners));
-
-            bw.close();
-            fw.close();
-
+                catch (IOException e) {
+                    Log.i("Person", "Serialization error: " + e.getMessage());
+                }
+            }
         }
+        );}
 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public boolean isExternalStorageWriteable(){
         String state = Environment.getExternalStorageState();
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkPermissions(){
         if(!isExternalStorageReadable() || !isExternalStorageWriteable()){
-            Toast.makeText(this, "Внешнее хранилище не доступно", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "External storage not available.", Toast.LENGTH_LONG).show();
             return false;
         }
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
