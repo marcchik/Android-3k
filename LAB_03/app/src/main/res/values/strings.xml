@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LAB_03</string>
+    <string name="inputFirstName">Enter your name</string>
+    <string name="inputMiddleName">Enter your middle name</string>
+    <string name="inputLastName">Enter your last name</string>
+    <string name="inputBirthPlace">Enter you birth place</string>
+    <string name="inputBirthDate">Enter you birth date</string>
 </resources>
