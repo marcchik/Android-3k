@@ -1,14 +1,15 @@
-package com.smuzdev.lab_03;
+package com.smuzdev.lab_03.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.smuzdev.lab_03.auxiliary.CustomTextWatcher;
+import com.smuzdev.lab_03.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,12 +27,8 @@ public class MainActivity extends AppCompatActivity {
         middleNameEditText = findViewById(R.id.middleNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         toBirthdayActivityButton = findViewById(R.id.toBirthdayActivityButton);
-
-//        if (toBirthdayActivityButton.isEnabled() == false) {
-//            toBirthdayActivityButton.getBackground().setAlpha(128);
-//        } else {
-//            toBirthdayActivityButton.getBackground().setAlpha(255);
-//        }
+        toBirthdayActivityButton.setEnabled(false);
+        toBirthdayActivityButton.getBackground().setAlpha(128);
 
         EditText[] editTexts = {firstNameEditText, middleNameEditText, lastNameEditText};
         CustomTextWatcher textWatcher = new CustomTextWatcher(editTexts, toBirthdayActivityButton);

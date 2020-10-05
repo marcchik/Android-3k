@@ -1,4 +1,4 @@
-package com.smuzdev.lab_03;
+package com.smuzdev.lab_03.auxiliary;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,11 +25,13 @@ public class CustomTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable s) {
         for (EditText editText : editTexts) {
             if (editText.getText().toString().trim().length() <= 0) {
+                v.getBackground().setAlpha(128);
                 v.setEnabled(false);
                 break;
             }
             else {
                 v.setEnabled(true);
+                v.getBackground().setAlpha(255);
             }
         }
     }

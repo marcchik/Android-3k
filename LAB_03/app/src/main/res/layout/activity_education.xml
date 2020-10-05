@@ -4,89 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.BirthdayActivity">
+    tools:context=".activities.EducationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Where did you born?"
+            android:text="Information about education:"
             android:textSize="22sp" />
 
         <EditText
-            android:id="@+id/birthPlaceEditText"
+            android:id="@+id/universityEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/inputBirthPlace"
+            android:hint="@string/university"
             android:inputType="textPersonName" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <EditText
+            android:id="@+id/courseEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="When did you born?"
-            android:textSize="22sp" />
+            android:ems="10"
+            android:hint="@string/course"
+            android:inputType="number" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/specializationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/selectedDateTextView"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/date"
-                android:textAlignment="center"
-                android:textSize="22sp" />
-
-            <Button
-                android:id="@+id/selectDateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Select date"
-                android:textSize="18sp" />
-        </LinearLayout>
+            android:ems="10"
+            android:hint="@string/specialization"
+            android:inputType="textPersonName" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/BackToMainActivityButton"
+                android:id="@+id/backToBirthdayActivityButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#FF9800"
-                android:text="Back"
-                android:textSize="18sp" />
+                android:text="Back" />
 
             <Button
-                android:id="@+id/toEducationActivityButton"
+                android:id="@+id/toVerificationActivityButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#8BC34A"
                 android:text="Next"
-                android:textSize="18sp" />
-
+                android:textColor="#000000" />
         </LinearLayout>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
