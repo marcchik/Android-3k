@@ -40,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(getApplicationContext(), BirthdayActivity.class);
-                intent.putExtra("firstName", firstNameEditText.getText().toString());
-                intent.putExtra("middleName", middleNameEditText.getText().toString());
-                intent.putExtra("lastName", lastNameEditText.getText().toString());
+                Bundle bundle = new Bundle();
+                bundle.putString("firstName", firstNameEditText.getText().toString());
+                bundle.putString("middleName", middleNameEditText.getText().toString());
+                bundle.putString("lastName", lastNameEditText.getText().toString());
+                intent.putExtra("person", bundle);
                 startActivity(intent);
             }
         });

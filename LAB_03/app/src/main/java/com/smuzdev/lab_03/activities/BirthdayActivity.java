@@ -25,12 +25,14 @@ public class BirthdayActivity extends AppCompatActivity implements DatePickerDia
     Button toEducationActivityButton;
     Button selectDateButton;
     EditText birthPlaceEditText;
+    TextView birthDateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_birthday);
 
+        birthDateTextView = findViewById(R.id.birthDateTextView);
         birthPlaceEditText = findViewById(R.id.birthPlaceEditText);
         backToMainActivityButton = findViewById(R.id.BackToMainActivityButton);
         toEducationActivityButton = findViewById(R.id.toEducationActivityButton);
@@ -56,6 +58,10 @@ public class BirthdayActivity extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(getApplicationContext(), EducationActivity.class);
+                Bundle bundle = getIntent().getBundleExtra("person");
+                bundle.putString("birthPlace", birthPlaceEditText.getText().toString());
+                bundle.putString("birthDate", birthDateTextView.getText().toString());
+                intent.putExtra("person", bundle);
                 startActivity(intent);
             }
         });
@@ -77,7 +83,7 @@ public class BirthdayActivity extends AppCompatActivity implements DatePickerDia
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance().format(calendar.getTime());
 
-        TextView selectedDateTextView = findViewById(R.id.selectedDateTextView);
+        TextView selectedDateTextView = findViewById(R.id.birthDateTextView);
         selectedDateTextView.setText(currentDateString);
     }
 }

@@ -42,6 +42,12 @@ public class EducationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(getApplicationContext(), VerificationActivity.class);
+                Bundle bundle = getIntent().getBundleExtra("person");
+
+                bundle.putString("university", universityEditText.getText().toString());
+                bundle.putString("course", courseEditText.getText().toString());
+                bundle.putString("specialization", specializationEditText.getText().toString());
+                intent.putExtra("person", bundle);
                 startActivity(intent);
             }
         });
