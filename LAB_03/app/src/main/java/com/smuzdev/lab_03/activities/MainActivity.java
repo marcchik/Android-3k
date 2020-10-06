@@ -13,9 +13,7 @@ import com.smuzdev.lab_03.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText firstNameEditText;
-    EditText middleNameEditText;
-    EditText lastNameEditText;
+    EditText firstNameEditText, middleNameEditText, lastNameEditText;
     Button toBirthdayActivityButton;
 
     @Override

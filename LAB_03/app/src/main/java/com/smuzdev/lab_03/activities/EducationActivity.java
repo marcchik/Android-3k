@@ -13,11 +13,8 @@ import com.smuzdev.lab_03.auxiliary.CustomTextWatcher;
 
 public class EducationActivity extends AppCompatActivity {
 
-    Button toVerificationActivityButton;
-    Button backToBirthdayActivityButton;
-    EditText universityEditText;
-    EditText courseEditText;
-    EditText specializationEditText;
+    Button toVerificationActivityButton,  backToBirthdayActivityButton;
+    EditText universityEditText, courseEditText, specializationEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

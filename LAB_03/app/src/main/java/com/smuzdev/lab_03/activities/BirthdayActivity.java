@@ -21,9 +21,7 @@ import java.util.Calendar;
 
 public class BirthdayActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    Button backToMainActivityButton;
-    Button toEducationActivityButton;
-    Button selectDateButton;
+    Button backToMainActivityButton, toEducationActivityButton, selectDateButton;
     EditText birthPlaceEditText;
     TextView birthDateTextView;
 

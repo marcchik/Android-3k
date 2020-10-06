@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,6 +22,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.smuzdev.lab_03.R;
 import com.smuzdev.lab_03.auxiliary.Person;
+import com.smuzdev.lab_03.auxiliary.RequestPermissions;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,34 +33,23 @@ import java.io.IOException;
 
 public class VerificationActivity extends AppCompatActivity {
 
-    private static final int REQUEST_PERMISSION_WRITE = 1001;
-    private boolean permissionGranted;
-
-    Button confirmButton;
-    Button backToEducationActivityButton;
-    TextView confirmFirstNameTextView;
-    TextView confirmMiddleNameTextView;
-    TextView confirmLastNameTextView;
-    TextView confirmBirthPlaceTextView;
-    TextView confirmBirthDateTextView;
-    TextView confirmUniversityTextView;
-    TextView confirmCourseTextView;
-    TextView confirmSpecializationTextView;
-
-    String firstName;
-    String middleName;
-    String lastName;
-    String birthPlace;
-    String birthDate;
-    String university;
+    //region Initialization
+    Button confirmButton, backToEducationActivityButton;
+    TextView confirmFirstNameTextView, confirmMiddleNameTextView, confirmLastNameTextView,
+            confirmBirthPlaceTextView, confirmBirthDateTextView, confirmUniversityTextView,
+            confirmCourseTextView, confirmSpecializationTextView;
+    String firstName, middleName, lastName, birthPlace, birthDate, university, specialization;
     Integer course;
-    String specialization;
+    Context context = this;
+    Activity activity = this;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
+        //region findViewById()
         confirmFirstNameTextView = findViewById(R.id.confirmFirstNameTextView);
         confirmMiddleNameTextView = findViewById(R.id.confirmMiddleNameTextView);
         confirmLastNameTextView = findViewById(R.id.confirmLastNameTextView);
@@ -66,7 +60,9 @@ public class VerificationActivity extends AppCompatActivity {
         confirmSpecializationTextView = findViewById(R.id.confirmSpecializationTextView);
         confirmButton = findViewById(R.id.confirmButton);
         backToEducationActivityButton = findViewById(R.id.backToEducationActivityButton);
+        //endregion()
 
+        //region Bundle
         Bundle bundle = getIntent().getBundleExtra("person");
         firstName = bundle.getString("firstName");
         middleName = bundle.getString("middleName");
@@ -76,7 +72,9 @@ public class VerificationActivity extends AppCompatActivity {
         university = bundle.getString("university");
         course = bundle.getInt("course");
         specialization = bundle.getString("specialization");
+        //endregion
 
+        //region setText()
         confirmFirstNameTextView.setText("First name: " + firstName);
         confirmMiddleNameTextView.setText("Middle name: " + middleName);
         confirmLastNameTextView.setText("Last name: " + lastName);
@@ -85,6 +83,7 @@ public class VerificationActivity extends AppCompatActivity {
         confirmUniversityTextView.setText("University : " + university);
         confirmCourseTextView.setText("Course: " + course);
         confirmSpecializationTextView.setText("Specialization: " + specialization);
+        //endregion
 
         Log.d("Person", "Person: " + firstName + ", " + middleName + ", "
                 + ", " + lastName + ", " + birthDate + ", " + birthDate + ", " + university + ", " + course + ", " + specialization);
@@ -100,9 +99,10 @@ public class VerificationActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final RequestPermissions requestPermission = new RequestPermissions();
 
-                if (!permissionGranted) {
-                    checkPermissions();
+                if(!requestPermission.permissionGranted) {
+                    requestPermission.checkPermissions(context, activity);
                 }
 
                 GsonBuilder builder = new GsonBuilder();
@@ -128,43 +128,5 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public boolean isExternalStorageWriteable() {
-        String state = Environment.getExternalStorageState();
-        return  Environment.MEDIA_MOUNTED.equals(state);
-    }
-
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        return  (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
-    }
-
-    private boolean checkPermissions() {
-        if(!isExternalStorageReadable() || !isExternalStorageWriteable()){
-            Toast.makeText(this, "External storage not available.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if(permissionCheck!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_WRITE);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSION_WRITE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permissionGranted = true;
-                    Toast.makeText(this, "Permissions received", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "Permissions must be granted", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
     }
 }
