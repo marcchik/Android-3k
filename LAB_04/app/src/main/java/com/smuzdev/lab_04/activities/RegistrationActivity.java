@@ -27,6 +27,7 @@ import android.widget.ImageView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.smuzdev.lab_04.R;
+import com.smuzdev.lab_04.auxiliary.CustomTextWatcher;
 import com.smuzdev.lab_04.auxiliary.Json;
 import com.smuzdev.lab_04.auxiliary.Person;
 import com.smuzdev.lab_04.auxiliary.Users;
@@ -56,7 +57,7 @@ public class RegistrationActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        getSupportActionBar().setTitle("Registration");
+        getSupportActionBar().setTitle("REGISTRATION");
 
         addButton = findViewById(R.id.addButton);
         selectAvatarIcon = findViewById(R.id.selectAvatarIcon);
@@ -66,14 +67,18 @@ public class RegistrationActivity extends AppCompatActivity  {
         inputEmail = findViewById(R.id.inputEmail);
         inputTwitter = findViewById(R.id.inputTwitter);
         inputPhone = findViewById(R.id.inputPhone);
+        addButton.setEnabled(false);
+        addButton.getBackground().setAlpha(128);
 
-//        inputName.addTextChangedListener(new ValidationTextWatcher(inputName));
-//        inputSurname.addTextChangedListener(new ValidationTextWatcher(inputSurname));
+        EditText[] editTexts = {inputName, inputSurname, inputEmail, inputTwitter, inputPhone};
+        CustomTextWatcher textWatcher = new CustomTextWatcher(editTexts, addButton);
+        for (EditText editText : editTexts) {
+            editText.addTextChangedListener(textWatcher);
+        }
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                addButton.setEnabled(validateName() && validateSurname());
                 if (selectAvatarButton.isEnabled()) {
                     Users users = Json.Deserialize();
                     users.addPerson(new Person(
@@ -82,7 +87,7 @@ public class RegistrationActivity extends AppCompatActivity  {
                             inputEmail.getText().toString(),
                             inputTwitter.getText().toString(),
                             inputPhone.getText().toString(),
-                            Environment.getExternalStorageDirectory() + "/LAB_04/" +  inputName.getText().toString().hashCode() + ".png"
+                            Environment.getExternalStorageDirectory() + "/LAB_04/" + "Image-" + inputName.getText().toString().hashCode() + ".png"
                     ));
                     users.printPersonList();
                     Json.Serialize(users);
@@ -119,18 +124,7 @@ public class RegistrationActivity extends AppCompatActivity  {
         startActivityForResult(Intent.createChooser(intent, "Pick an image"), GALLERY_REQUEST_CODE);
     }
 
-    public void saveImageToExternalSt(Bitmap image_bitmap) {
-//        String userName = inputName.getText().toString();
-//        String destPath = "";
-//        try {
-//            OutputStream outputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + "/LAB_04/" + userName.hashCode() + ".png");
-//            InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
-//            FileUtils.copy(inputStream, outputStream);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void saveImageToExternalStorage(Bitmap image_bitmap) {
         String userName = inputName.getText().toString();
         String root = Environment.getExternalStorageDirectory().toString();
             File myDir = new File(root, "/LAB_04");
@@ -168,68 +162,7 @@ public class RegistrationActivity extends AppCompatActivity  {
                 e.printStackTrace();
             }
             selectAvatarIcon.setImageURI(imageUri);
-            saveImageToExternalSt(image_bitmap);
+            saveImageToExternalStorage(image_bitmap);
         }
     }
-
-//    //VALIDATION
-//    private class ValidationTextWatcher implements TextWatcher {
-//        private View view;
-//
-//        private ValidationTextWatcher(View view) {
-//            this.view = view;
-//        }
-//
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-//        public void afterTextChanged(Editable editable) {
-//            switch (view.getId()) {
-//                case R.id.inputName:
-//                    validateName();
-//                    break;
-//                case R.id.inputSurname:
-//                    validateSurname();
-//                    break;
-//            }
-//
-//            addButton.setEnabled(validateName() && validateSurname());
-//        }
-//    }
-//
-//    private boolean validateName() {
-//        if (inputName.getText().toString().trim().isEmpty()) {
-//            inputName.setError("Name is required");
-//            return false;
-//
-//        } else if(inputName.getText().toString().length() > 20){
-//            inputName.setError("Name can't be more than 20 symbols");
-//            requestFocus(tilInputName);
-//            return false;
-//        }
-//        else {
-//            tilInputName.setErrorEnabled(false);
-//        }
-//        return true;
-//    }
-//
-//    private boolean validateSurname() {
-//        if (inputSurname.getText().toString().trim().isEmpty()) {
-//            inputSurname.setError("Surname is required");
-//            return false;
-//        } else if(inputSurname.getText().toString().length() > 30){
-//            inputSurname.setError("Surname can't be more than 30 symbols");
-//            requestFocus(tilInputSurname);
-//            return false;
-//        }
-//        else {
-//            tilInputSurname.setErrorEnabled(false);
-//        }
-//        return true;
-//    }
-//
-//    private void requestFocus(View view) {
-//        if (view.requestFocus()) {
-//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//        }
-//    }
 }

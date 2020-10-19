@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
     android:background="@drawable/background"
     android:gravity="center"
     android:orientation="vertical">
@@ -14,6 +13,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
+        android:layout_marginBottom="20dp"
         tools:srcCompat="@drawable/noavatar" />
 
     <TextView
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#fff"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="165dp"
         tools:layout_editor_absoluteY="272dp" />
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="email"
+        android:textColor="#fff"
         android:gravity="center"
         android:textSize="24sp" />
 
@@ -39,12 +41,14 @@
         android:layout_height="wrap_content"
         android:autoLink="phone"
         android:gravity="center"
+        android:textColor="#fff"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/itemTwitter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#fff"
         android:autoLink="web"
         android:gravity="center"
         android:textSize="24sp" />

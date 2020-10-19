@@ -2,15 +2,19 @@ package com.smuzdev.lab_04.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smuzdev.lab_04.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class Item extends AppCompatActivity {
@@ -42,8 +46,15 @@ public class Item extends AppCompatActivity {
         itemNameSurname.setText("User: " + intent.getStringExtra("name") + " " + intent.getStringExtra("surname"));
         itemPhone.setText("Phone: " + intent.getStringExtra("phone"));
         itemEmail.setText("Email: " + intent.getStringExtra("email"));
-        itemTwitter.setText("Twitter: " + intent.getStringExtra("twitter"));
+        itemTwitter.setText("Twitter: " + "twitter.com/" + intent.getStringExtra("twitter"));
 
         Log.d(TAG, "onStart: " + intent.getStringExtra("name"));
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "pathToAvatar", null);
+        return Uri.parse(path);
     }
 }

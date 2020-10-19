@@ -37,7 +37,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
         Person person = users.personArrayList.get(position);
-        File imgFile = new File(Environment.getExternalStorageDirectory() + "/LAB_04/" + person.name.hashCode() + ".png");
+        File imgFile = new File(Environment.getExternalStorageDirectory() + "/LAB_04/" + "Image-" + person.name.hashCode() + ".png");
         holder.nameView.setText("Name: " + person.name);
         holder.surnameView.setText("Surname: " + person.surname);
         holder.emailView.setText("Email: " + person.email);
@@ -56,8 +56,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         final TextView nameView, surnameView, emailView, phoneView, twitterView;
         OnItemClickListener onItemClickListener;
 
-        ViewHolder(View view, OnItemClickListener onItemClickListener){
-
+        ViewHolder(View view, OnItemClickListener onItemClickListener) {
             super(view);
             nameView = (TextView)view.findViewById(R.id.name);
             surnameView = (TextView)view.findViewById(R.id.surname);
