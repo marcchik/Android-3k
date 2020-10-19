@@ -1,12 +1,12 @@
-package com.smuzdev.lab_04;
+package com.smuzdev.lab_04.auxiliary;
 
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
 
 public class Users {
+    String TAG = "LAB_04";
     public ArrayList<Person> personArrayList = new ArrayList<Person>();
 
     public void addPerson(Person person) {
