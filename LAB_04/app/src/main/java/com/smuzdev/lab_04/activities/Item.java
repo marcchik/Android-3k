@@ -50,11 +50,4 @@ public class Item extends AppCompatActivity {
 
         Log.d(TAG, "onStart: " + intent.getStringExtra("name"));
     }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "pathToAvatar", null);
-        return Uri.parse(path);
-    }
 }

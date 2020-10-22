@@ -10,14 +10,14 @@ public class Dish {
     private int dishImage;
     private String dishCookingTime;
 
-    public Dish(String dishName, String dishCategory, String dishDescription, String dishIngredients, String dishRecipe, int dishImage, String dishCookingTime) {
+    public Dish(String dishName, /*String dishCategory,*/ String dishDescription, /*String dishIngredients, String dishRecipe,*/String dishCookingTime, int dishImage ) {
         this.dishName = dishName;
-        this.dishCategory = dishCategory;
+//        this.dishCategory = dishCategory;
         this.dishDescription = dishDescription;
-        this.dishIngredients = dishIngredients;
-        this.dishRecipe = dishRecipe;
-        this.dishImage = dishImage;
+//        this.dishIngredients = dishIngredients;
+//        this.dishRecipe = dishRecipe;
         this.dishCookingTime = dishCookingTime;
+        this.dishImage = dishImage;
     }
 
     public String getDishName() {
