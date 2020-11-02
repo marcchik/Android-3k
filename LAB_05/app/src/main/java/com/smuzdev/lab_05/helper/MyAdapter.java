@@ -39,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter<DishViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final DishViewHolder dishViewHolder, int position) {
 
-        dishViewHolder.imageView.setImageResource(dishList.get(position).getDishImage());
+        //dishViewHolder.imageView.setImageResource(dishList.get(position).getDishImage());
         dishViewHolder.mTitle.setText(dishList.get(position).getDishName());
         dishViewHolder.mDescription.setText(dishList.get(position).getDishDescription());
         dishViewHolder.mCookingTime.setText(dishList.get(position).getDishCookingTime());

@@ -7,10 +7,10 @@ public class Dish {
     private String dishDescription;
     private String dishIngredients;
     private String dishRecipe;
-    private int dishImage;
+    private String dishImage;
     private String dishCookingTime;
 
-    public Dish(String dishName, /*String dishCategory,*/ String dishDescription, /*String dishIngredients, String dishRecipe,*/String dishCookingTime, int dishImage ) {
+    public Dish(String dishName, /*String dishCategory,*/ String dishDescription, /*String dishIngredients, String dishRecipe,*/String dishCookingTime, String dishImage ) {
         this.dishName = dishName;
 //        this.dishCategory = dishCategory;
         this.dishDescription = dishDescription;
@@ -40,7 +40,7 @@ public class Dish {
         return dishRecipe;
     }
 
-    public int getDishImage() {
+    public String getDishImage() {
         return dishImage;
     }
 

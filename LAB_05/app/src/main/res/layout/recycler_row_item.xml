@@ -60,6 +60,7 @@
                         android:text="Description"
                         android:textSize="18sp"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:id="@+id/tvDescription"
                         />
 
