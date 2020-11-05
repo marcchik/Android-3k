@@ -121,7 +121,7 @@ public class UploadActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UploadActivity.this, e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(UploadActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
         });
