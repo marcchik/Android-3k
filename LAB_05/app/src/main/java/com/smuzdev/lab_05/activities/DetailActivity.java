@@ -19,7 +19,9 @@ import com.smuzdev.lab_05.R;
 
 public class DetailActivity extends AppCompatActivity {
 
+    TextView dishName;
     TextView dishDescription;
+    TextView dishCookingTime;
     ImageView dishImage;
     String key = "";
     String imageUrl = "";
@@ -29,14 +31,18 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        dishName = findViewById(R.id.txtRecipeName);
         dishDescription = findViewById(R.id.txtDescription);
+        dishCookingTime = findViewById(R.id.txtCookingTime);
         dishImage = findViewById(R.id.ivImage2);
 
         Bundle mBundle = getIntent().getExtras();
 
         if(mBundle != null) {
 
+            dishName.setText(mBundle.getString("DishName"));
             dishDescription.setText(mBundle.getString("Description"));
+            dishCookingTime.setText(mBundle.getString("DishCookingTime"));
             key = mBundle.getString("keyValue");
             imageUrl = mBundle.getString("Image");
             //dishImage.setImageResource(mBundle.getInt("Image"));
@@ -67,6 +73,21 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void btnUpdateRecipe(View view) {
+
+        startActivity(new Intent(getApplicationContext(), UpdateActivity.class)
+        .putExtra("dishNameKey", dishName.getText().toString()).putExtra("dishNameKey", dishName.getText().toString())
+        .putExtra("dishDescriptionKey", dishDescription.getText().toString())
+        .putExtra("dishCookingTimeKey", dishCookingTime.getText().toString())
+        .putExtra("oldImageUrl", imageUrl)
+        .putExtra("key", key)
+        );
+
+
+
 
     }
 }

@@ -58,6 +58,8 @@ public class MyAdapter extends RecyclerView.Adapter<DishViewHolder> {
             public void onClick(View v) {
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("DishName", dishList.get(dishViewHolder.getAdapterPosition()).getDishName());
+                intent.putExtra("DishCookingTime", dishList.get(dishViewHolder.getAdapterPosition()).getDishCookingTime());
                 intent.putExtra("Image", dishList.get(dishViewHolder.getAdapterPosition()).getDishImage());
                 intent.putExtra("Description", dishList.get(dishViewHolder.getAdapterPosition()).getDishDescription());
                 intent.putExtra("keyValue", dishList.get(dishViewHolder.getAdapterPosition()).getKey());
