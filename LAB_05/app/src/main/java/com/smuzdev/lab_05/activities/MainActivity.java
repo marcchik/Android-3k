@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.helper.MyAdapter;
-import com.smuzdev.lab_05.models.Dish;
+import com.smuzdev.lab_05.models.Thing;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +30,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    List<Dish> dishList;
-    Dish mDish;
-    private DatabaseReference databaseReference;
-    private ValueEventListener eventListener;
+    List<Thing> thingList;
+    Thing mThing;
     ProgressDialog progressDialog;
     EditText txt_search;
+    private DatabaseReference databaseReference;
+    private ValueEventListener eventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView  = findViewById(R.id.recyclerView);
+        mRecyclerView = findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -49,27 +51,26 @@ public class MainActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading items...");
 
-        dishList = new ArrayList<>();
+        thingList = new ArrayList<>();
 
-        final MyAdapter myAdapter = new MyAdapter(MainActivity.this, dishList);
+
+        final MyAdapter myAdapter = new MyAdapter(MainActivity.this, thingList);
         mRecyclerView.setAdapter(myAdapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Recipe");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Things");
         progressDialog.show();
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                dishList.clear();
+                thingList.clear();
 
-                for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
 
-                    Dish dish = itemSnapshot.getValue(Dish.class);
-                    dish.setKey(itemSnapshot.getKey());
-                    dishList.add(dish);
-
+                    Thing thing = itemSnapshot.getValue(Thing.class);
+                    thing.setKey(itemSnapshot.getKey());
+                    thingList.add(thing);
                 }
-
                 myAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
 
@@ -94,20 +95,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 filter(s.toString());
-
             }
 
             private void filter(String text) {
 
-                ArrayList<Dish> filterList = new ArrayList<>();
-                for(Dish dish: dishList) {
+                ArrayList<Thing> filterList = new ArrayList<>();
+                for (Thing thing : thingList) {
 
-                    if(dish.getDishName().toLowerCase().contains(text.toLowerCase())) {
-
-                        filterList.add(dish);
-
+                    if (thing.getThingName().toLowerCase().contains(text.toLowerCase())) {
+                        filterList.add(thing);
                     }
 
                 }

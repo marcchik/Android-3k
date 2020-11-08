@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,42 +7,88 @@
     tools:context=".activities.DetailActivity">
 
     <ImageView
+        android:id="@+id/ivImage2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/ivImage2"
-        android:src="@drawable/no_image"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/no_image"
+        android:contentDescription="@string/noImage" />
+
+    <TextView
+        android:id="@+id/txtThingName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/thingName"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtThingDiscoveryDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thingDiscoveryDate"
+        android:textAlignment="center"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/txtThingDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/thingDescription"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/txtThingDiscoveryPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/thingDiscoveryPlace"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/txtThingPickupPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/thingPickupPoint"
+        android:textSize="19sp" />
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:text="Dish Name"
-        android:textSize="19sp"
-        android:id="@+id/txtRecipeName"
-        />
+        android:text="@string/contacts"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txtUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:text="Description"
-        android:textSize="19sp"
-        android:id="@+id/txtDescription"
-        />
+        android:padding="10dp"
+        android:text="@string/userName"
+        android:textSize="19sp" />
 
     <TextView
+        android:id="@+id/txtUserEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:text="Dish Cooking Time"
-        android:textSize="19sp"
-        android:id="@+id/txtCookingTime"
-        />
+        android:padding="10dp"
+        android:text="@string/userEmail"
+        android:autoLink="email"
+        android:textSize="19sp" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,25 +98,26 @@
             android:id="@+id/btnDelete"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Delete"
-            android:textSize="22sp"
-            android:textColor="#ffffff"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_margin="20dp"
-            android:onClick="btnDeleteRecipe"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="btnDeleteRecipe"
+            android:text="@string/deleteThing"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+
         <Button
             android:id="@+id/btnUpdate"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Update"
-            android:textSize="22sp"
-            android:textColor="#ffffff"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
-            android:onClick="btnUpdateRecipe"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="btnUpdateRecipe"
+            android:text="@string/updateThing"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
 
     </RelativeLayout>
 

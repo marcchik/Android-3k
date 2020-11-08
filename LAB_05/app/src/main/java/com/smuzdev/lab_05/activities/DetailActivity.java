@@ -19,10 +19,9 @@ import com.smuzdev.lab_05.R;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView dishName;
-    TextView dishDescription;
-    TextView dishCookingTime;
-    ImageView dishImage;
+    TextView thingName, thingDescription, thingDiscoveryDate, thingDiscoveryPlace,
+            thingPickupPoint, userName, userEmail;
+    ImageView thingImage;
     String key = "";
     String imageUrl = "";
 
@@ -31,33 +30,39 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        dishName = findViewById(R.id.txtRecipeName);
-        dishDescription = findViewById(R.id.txtDescription);
-        dishCookingTime = findViewById(R.id.txtCookingTime);
-        dishImage = findViewById(R.id.ivImage2);
+        thingName = findViewById(R.id.txtThingName);
+        thingDescription = findViewById(R.id.txtThingDescription);
+        thingDiscoveryDate = findViewById(R.id.txtThingDiscoveryDate);
+        thingDiscoveryPlace = findViewById(R.id.txtThingDiscoveryPlace);
+        thingPickupPoint = findViewById(R.id.txtThingPickupPoint);
+        userName = findViewById(R.id.txtUserName);
+        userEmail = findViewById(R.id.txtUserEmail);
+        thingImage = findViewById(R.id.ivImage2);
 
         Bundle mBundle = getIntent().getExtras();
 
-        if(mBundle != null) {
+        if (mBundle != null) {
 
-            dishName.setText(mBundle.getString("DishName"));
-            dishDescription.setText(mBundle.getString("Description"));
-            dishCookingTime.setText(mBundle.getString("DishCookingTime"));
-            key = mBundle.getString("keyValue");
-            imageUrl = mBundle.getString("Image");
-            //dishImage.setImageResource(mBundle.getInt("Image"));
+            thingName.setText(mBundle.getString("ThingName"));
+            thingDescription.setText(mBundle.getString("ThingDescription"));
+            thingDiscoveryDate.setText(mBundle.getString("ThingDiscoveryDate"));
+            thingDiscoveryPlace.setText(mBundle.getString("ThingDiscoveryPlace"));
+            thingPickupPoint.setText(mBundle.getString("ThingPickupPoint"));
+            userName.setText(mBundle.getString("UserName"));
+            userEmail.setText(mBundle.getString("UserEmail"));
+            key = mBundle.getString("KeyValue");
+            imageUrl = mBundle.getString("ThingImage");
 
             Glide.with(this)
-                    .load(mBundle.getString("Image"))
-                    .into(dishImage);
+                    .load(mBundle.getString("ThingImage"))
+                    .into(thingImage);
 
         }
-
     }
 
     public void btnDeleteRecipe(View view) {
 
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Recipe");
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Things");
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         StorageReference storageReference = storage.getReferenceFromUrl(imageUrl);
@@ -67,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
 
                 reference.child(key).removeValue();
-                Toast.makeText(DetailActivity.this, "Recipe deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, "Thing deleted", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
 
@@ -79,15 +84,14 @@ public class DetailActivity extends AppCompatActivity {
     public void btnUpdateRecipe(View view) {
 
         startActivity(new Intent(getApplicationContext(), UpdateActivity.class)
-        .putExtra("dishNameKey", dishName.getText().toString()).putExtra("dishNameKey", dishName.getText().toString())
-        .putExtra("dishDescriptionKey", dishDescription.getText().toString())
-        .putExtra("dishCookingTimeKey", dishCookingTime.getText().toString())
-        .putExtra("oldImageUrl", imageUrl)
-        .putExtra("key", key)
+                .putExtra("thingNameKey", thingName.getText().toString())
+                .putExtra("thingDescriptionKey", thingDescription.getText().toString())
+                .putExtra("thingDiscoveryDateKey", thingDiscoveryDate.getText().toString())
+                .putExtra("thingPickupPointKey", thingPickupPoint.getText().toString())
+                .putExtra("userNameKey", userName.getText().toString())
+                .putExtra("userEmailKey", userEmail.getText().toString())
+                .putExtra("oldImageUrl", imageUrl)
+                .putExtra("key", key)
         );
-
-
-
-
     }
 }

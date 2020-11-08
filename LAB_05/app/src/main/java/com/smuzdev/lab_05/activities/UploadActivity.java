@@ -3,48 +3,101 @@ package com.smuzdev.lab_05.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smuzdev.lab_05.R;
-import com.smuzdev.lab_05.models.Dish;
+import com.smuzdev.lab_05.helper.DatePickerFragment;
+import com.smuzdev.lab_05.helper.User;
+import com.smuzdev.lab_05.models.Thing;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class UploadActivity extends AppCompatActivity {
 
-    ImageView recipeImage;
+public class UploadActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
     Uri uri;
-    EditText txt_name, txt_description, txt_cooking_time;
-    String imageUrl;
+    User user;
+    FirebaseUser FB_user;
+    Button selectDateButton;
+    TextView txt_thingDiscoveryDate;
+    EditText txt_thingName, txt_thingDescription, txt_thingDiscoveryPlace, txt_thingPickupPoint;
+    ImageView thingImage;
+    String imageUrl, userName, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
-        recipeImage = findViewById(R.id.iv_dishImage);
-        txt_name = findViewById(R.id.txtRecipeName);
-        txt_description = findViewById(R.id.txtDescription);
-        txt_cooking_time = findViewById(R.id.txtCookingTime);
+        thingImage = findViewById(R.id.iv_thingImage);
+        txt_thingName = findViewById(R.id.txtThingName);
+        txt_thingDescription = findViewById(R.id.txtThingDescription);
+        txt_thingDiscoveryDate = findViewById(R.id.txtThingDiscoveryDate);
+        txt_thingDiscoveryPlace = findViewById(R.id.txtThingDiscoveryPlace);
+        txt_thingPickupPoint = findViewById(R.id.txtThingPickupPoint);
+        selectDateButton = findViewById(R.id.selectDateButton);
+
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
+
+        FB_user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
+                    System.out.println(itemSnapshot.getKey());
+                    if (itemSnapshot.getKey().equals(FB_user.getUid())) {
+                        user = itemSnapshot.getValue(User.class);
+                        userName = user.getName();
+                        userEmail = user.getEmail();
+                        Log.d("UserName ", " : " + userName);
+                        Log.d("UserName ", " : " + userEmail);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public void btnSelectImage(View view) {
@@ -52,6 +105,7 @@ public class UploadActivity extends AppCompatActivity {
         Intent photoPicker = new Intent(Intent.ACTION_PICK);
         photoPicker.setType("image/*");
         startActivityForResult(photoPicker, 1);
+
     }
 
     @Override
@@ -59,21 +113,18 @@ public class UploadActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-
             uri = data.getData();
-            recipeImage.setImageURI(uri);
-
-        }
-        else Toast.makeText(this, "You haven't picked image", Toast.LENGTH_LONG).show();
+            thingImage.setImageURI(uri);
+        } else Toast.makeText(this, "You haven't picked image", Toast.LENGTH_LONG).show();
     }
 
-    public  void uploadImage() {
+    public void uploadImage() {
 
         StorageReference storageReference = FirebaseStorage.getInstance()
                 .getReference().child("RecipeImage").child(uri.getLastPathSegment());
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Recipe Uploading...");
+        progressDialog.setMessage("Thing Uploading...");
         progressDialog.show();
 
         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -81,10 +132,10 @@ public class UploadActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while(!uriTask.isComplete());
+                while (!uriTask.isComplete()) ;
                 Uri urlImage = uriTask.getResult();
                 imageUrl = urlImage.toString();
-                uploadRecipe();
+                uploadThing();
                 progressDialog.dismiss();
                 Toast.makeText(UploadActivity.this, "Image uploaded", Toast.LENGTH_LONG).show();
             }
@@ -96,24 +147,27 @@ public class UploadActivity extends AppCompatActivity {
         uploadImage();
     }
 
-    public void uploadRecipe() {
+    public void uploadThing() {
 
-        Dish dish = new Dish(
-                txt_name.getText().toString(),
-                txt_description.getText().toString(),
-                txt_cooking_time.getText().toString(),
-                imageUrl
+        Thing thing = new Thing(
+                txt_thingName.getText().toString(),
+                txt_thingDescription.getText().toString(),
+                txt_thingDiscoveryDate.getText().toString(),
+                txt_thingDiscoveryPlace.getText().toString(),
+                txt_thingPickupPoint.getText().toString(),
+                imageUrl,
+                userName,
+                userEmail
         );
 
-        FirebaseDatabase.getInstance().getReference("Recipe")
-                .child(dish.getDishName()).setValue(dish).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference("Things")
+                .child(thing.getThingName()).setValue(thing).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
 
-                    Toast.makeText(UploadActivity.this, "Recipe uploaded", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(UploadActivity.this, "Thing uploaded", Toast.LENGTH_LONG).show();
                     finish();
 
                 }
@@ -125,7 +179,17 @@ public class UploadActivity extends AppCompatActivity {
                 Toast.makeText(UploadActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateString = sdf.format(calendar.getTime());
+        txt_thingDiscoveryDate.setText(currentDateString);
+
+    }
 }

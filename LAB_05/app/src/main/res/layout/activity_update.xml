@@ -10,65 +10,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="30dp">
 
         <ImageView
+            android:id="@+id/iv_thingImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:id="@+id/iv_dishImage"
-            android:src="@drawable/no_image"
-            />
+            android:src="@drawable/no_image" />
 
         <EditText
+            android:id="@+id/txtThingName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Recipe Name"
-            android:textSize="19sp"
             android:layout_marginTop="20dp"
-            android:id="@+id/txt_recipe_name"
-            />
+            android:hint="@string/thingName"
+            android:textSize="19sp" />
 
         <EditText
+            android:id="@+id/txtThingDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
             android:layout_marginTop="10dp"
-            android:textSize="19sp"
-            android:id="@+id/text_description"
-            />
+            android:hint="@string/thingDescription"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtThingDiscoveryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/thingDiscoveryDate"
+                android:textSize="19sp" />
+
+            <Button
+                android:id="@+id/selectDateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/selectDate"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
 
         <EditText
+            android:id="@+id/txtThingDiscoveryPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cooking Time"
             android:layout_marginTop="10dp"
-            android:textSize="19sp"
             android:layout_marginBottom="10dp"
-            android:id="@+id/text_cooking_time"
-            />
+            android:hint="@string/thingDiscoveryPlace"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/txtThingPickupPoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/thingPickupPoint"
+            android:textSize="19sp" />
+
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Select Image"
-            android:textSize="22sp"
             android:backgroundTint="@color/colorPrimary"
-            android:textColor="#ffffff"
             android:onClick="btnSelectImage"
-            />
+            android:text="@string/selectImage"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Update Recipe"
-            android:textSize="22sp"
             android:backgroundTint="@color/colorPrimary"
-            android:textColor="#ffffff"
             android:onClick="btnUpdateRecipe"
-            />
-
+            android:text="@string/updateThing"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
 
 
     </LinearLayout>

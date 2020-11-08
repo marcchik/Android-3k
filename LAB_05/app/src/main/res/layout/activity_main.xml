@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Search"
-    android:textSize="22sp"
-    android:id="@+id/txt_searchText"
-    android:layout_margin="15dp"
-    />
-
-    <androidx.recyclerview.widget.RecyclerView
+    <EditText
+        android:id="@+id/txt_searchText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="@string/search"
+        android:textSize="22sp"
+        android:autofillHints="no"
+        android:inputType="textCapCharacters" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/txt_searchText">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_searchText"
+        android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="40dp"
         android:backgroundTint="@color/colorAccent"
-        android:src="@drawable/upload"
         android:onClick="btn_uploadActivity"
-    />
+        android:src="@drawable/upload"
+        android:contentDescription="@string/addNewThing" />
 
 </RelativeLayout>

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#FC3912</color>
     <color name="colorPrimaryDark">#FC3912</color>
     <color name="colorAccent">#FC3912</color>
+
+    <color name="auth_bg">#fc6344</color>
 </resources>

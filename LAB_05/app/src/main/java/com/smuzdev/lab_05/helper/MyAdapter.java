@@ -17,64 +17,68 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.activities.DetailActivity;
-import com.smuzdev.lab_05.models.Dish;
+import com.smuzdev.lab_05.models.Thing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<DishViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
 
     private Context mContext;
-    private List<Dish> dishList;
+    private List<Thing> thingList;
     private int lastPosition = -1;
 
-    public MyAdapter(Context mContext, List<Dish> dishList) {
+    public MyAdapter(Context mContext, List<Thing> thingList) {
         this.mContext = mContext;
-        this.dishList = dishList;
+        this.thingList = thingList;
     }
 
     @Override
-    public DishViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ThingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-       View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_row_item, viewGroup, false);
+        View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_row_item, viewGroup, false);
 
-       return new DishViewHolder(mView);
+        return new ThingViewHolder(mView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final DishViewHolder dishViewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ThingViewHolder thingViewHolder, int position) {
 
         Glide.with(mContext)
-                .load(dishList.get(position).getDishImage())
-                .into(dishViewHolder.imageView);
+                .load(thingList.get(position).getThingImage())
+                .into(thingViewHolder.imageView);
 
         //dishViewHolder.imageView.setImageResource(dishList.get(position).getDishImage());
-        dishViewHolder.mTitle.setText(dishList.get(position).getDishName());
-        dishViewHolder.mDescription.setText(dishList.get(position).getDishDescription());
-        dishViewHolder.mCookingTime.setText(dishList.get(position).getDishCookingTime());
+        thingViewHolder.mThingTitle.setText(thingList.get(position).getThingName());
+        thingViewHolder.mhThingDescription.setText(thingList.get(position).getThingDescription());
+        thingViewHolder.mThingDiscoveryPlace.setText(thingList.get(position).getThingDiscoveryPlace());
 
-        dishViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
+        thingViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("DishName", dishList.get(dishViewHolder.getAdapterPosition()).getDishName());
-                intent.putExtra("DishCookingTime", dishList.get(dishViewHolder.getAdapterPosition()).getDishCookingTime());
-                intent.putExtra("Image", dishList.get(dishViewHolder.getAdapterPosition()).getDishImage());
-                intent.putExtra("Description", dishList.get(dishViewHolder.getAdapterPosition()).getDishDescription());
-                intent.putExtra("keyValue", dishList.get(dishViewHolder.getAdapterPosition()).getKey());
+                intent.putExtra("ThingName", thingList.get(thingViewHolder.getAdapterPosition()).getThingName());
+                intent.putExtra("ThingDescription", thingList.get(thingViewHolder.getAdapterPosition()).getThingDescription());
+                intent.putExtra("ThingDiscoveryDate", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryDate());
+                intent.putExtra("ThingImage", thingList.get(thingViewHolder.getAdapterPosition()).getThingImage());
+                intent.putExtra("ThingDiscoveryPlace", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryPlace());
+                intent.putExtra("ThingPickupPoint", thingList.get(thingViewHolder.getAdapterPosition()).getThingPickupPoint());
+                intent.putExtra("KeyValue", thingList.get(thingViewHolder.getAdapterPosition()).getKey());
+                intent.putExtra("UserName", thingList.get(thingViewHolder.getAdapterPosition()).getUserName());
+                intent.putExtra("UserEmail", thingList.get(thingViewHolder.getAdapterPosition()).getUserEmail());
                 mContext.startActivity(intent);
 
             }
         });
 
-        setAnimation(dishViewHolder.itemView, position);
+        setAnimation(thingViewHolder.itemView, position);
 
     }
 
     private void setAnimation(View viewToAnimate, int position) {
 
-        if(position > lastPosition) {
+        if (position > lastPosition) {
 
             ScaleAnimation animation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
                     Animation.RELATIVE_TO_SELF, 0.5f,
@@ -89,33 +93,29 @@ public class MyAdapter extends RecyclerView.Adapter<DishViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dishList.size();
+        return thingList.size();
     }
 
-    public void filteredList(ArrayList<Dish> filterList) {
+    public void filteredList(ArrayList<Thing> filterList) {
 
-        dishList = filterList;
+        thingList = filterList;
         notifyDataSetChanged();
-
     }
 }
 
-class DishViewHolder extends RecyclerView.ViewHolder {
+class ThingViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageView;
-    TextView mTitle, mDescription, mCookingTime;
+    TextView mThingTitle, mhThingDescription, mThingDiscoveryPlace;
     CardView mCardView;
 
-    public DishViewHolder(@NonNull View itemView) {
+    public ThingViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        imageView = itemView.findViewById(R.id.ivImage);
-        mTitle = itemView.findViewById(R.id.tvTitle);
-        mDescription = itemView.findViewById(R.id.tvDescription);
-        mCookingTime = itemView.findViewById(R.id.tvCookingTime);
-
+        imageView = itemView.findViewById(R.id.ivThingImage);
+        mThingTitle = itemView.findViewById(R.id.tvThingName);
+        mhThingDescription = itemView.findViewById(R.id.tvThingDescription);
+        mThingDiscoveryPlace = itemView.findViewById(R.id.tvThingDiscoveryPlace);
         mCardView = itemView.findViewById(R.id.myCardView);
-
-
     }
 }

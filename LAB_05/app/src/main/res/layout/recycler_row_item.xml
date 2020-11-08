@@ -21,7 +21,7 @@
             android:weightSum="5.5">
 
             <ImageView
-                android:id="@+id/ivImage"
+                android:id="@+id/ivThingImage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="4"
@@ -44,20 +44,20 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvTitle"
+                        android:id="@+id/tvThingName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:text="Title"
+                        android:text="@string/thingName"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/tvDescription"
+                        android:id="@+id/tvThingDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Description"
+                        android:text="@string/thingDescription"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -69,10 +69,10 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/tvCookingTime"
+                        android:id="@+id/tvThingDiscoveryPlace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="30min"
+                        android:text="@string/thingDiscoveryPlace"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="25sp"
