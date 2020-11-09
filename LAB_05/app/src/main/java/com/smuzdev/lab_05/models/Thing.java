@@ -11,8 +11,11 @@ public class Thing {
     private String key;
     private String userName;
     private String userEmail;
+    private String userPhone;
 
-    public Thing(String thingName, String thingDescription, String thingDiscoveryDate, String thingDiscoveryPlace, String thingPickupPoint, String thingImage, String userName, String userEmail) {
+    public Thing(String thingName, String thingDescription, String thingDiscoveryDate,
+                 String thingDiscoveryPlace, String thingPickupPoint, String thingImage,
+                 String userName, String userEmail, String userPhone) {
         this.thingName = thingName;
         this.thingDescription = thingDescription;
         this.thingDiscoveryDate = thingDiscoveryDate;
@@ -21,6 +24,7 @@ public class Thing {
         this.thingImage = thingImage;
         this.userName = userName;
         this.userEmail = userEmail;
+        this.userPhone = userPhone;
     }
 
     public Thing() {
@@ -57,6 +61,10 @@ public class Thing {
 
     public String getUserEmail() {
         return userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
     }
 
     public String getKey() {

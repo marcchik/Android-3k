@@ -67,6 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
                 intent.putExtra("KeyValue", thingList.get(thingViewHolder.getAdapterPosition()).getKey());
                 intent.putExtra("UserName", thingList.get(thingViewHolder.getAdapterPosition()).getUserName());
                 intent.putExtra("UserEmail", thingList.get(thingViewHolder.getAdapterPosition()).getUserEmail());
+                intent.putExtra("UserPhone", thingList.get(thingViewHolder.getAdapterPosition()).getUserPhone());
                 mContext.startActivity(intent);
 
             }

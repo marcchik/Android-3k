@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FC3912</color>
-    <color name="colorPrimaryDark">#FC3912</color>
-    <color name="colorAccent">#FC3912</color>
+    <color name="colorPrimary">#e12929</color>
+    <color name="colorPrimaryDark">#e12929</color>
+    <color name="colorAccent">#e12929</color>
 
-    <color name="auth_bg">#fc6344</color>
+    <color name="auth_bg">#E43F3F</color>
+    <color name="textColor">#000000</color>
 </resources>

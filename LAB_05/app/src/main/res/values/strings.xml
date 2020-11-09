@@ -7,19 +7,20 @@
     <!--Login&Registration-->
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="phoneNumber">Phone Number</string>
     <string name="password">Password</string>
     <string name="noAccount">No account yet? Create one</string>
+    <string name="haveAccount">Already a member? Login</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
 
     <!--Detail View-->
     <string name="thingName">Thing Name</string>
     <string name="thingDescription">Thing Description</string>
-    <string name="thingDiscoveryDate">DD.MM.YYYY</string>
+    <string name="thingDiscoveryDate">Unspecified</string>
     <string name="thingDiscoveryPlace">Thing Discovery Place</string>
     <string name="thingPickupPoint">Thing Pickup Point</string>
-    <string name="finderName">Name Of The Finder</string>
-    <string name="finderPhone">Phone Of The Finder</string>
+    <string name="userPhone">Phone</string>
     <string name="contacts">Contacts</string>
 
     <!--Buttons-->

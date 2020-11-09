@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smuzdev.lab_05.R;
+import com.smuzdev.lab_05.helper.CustomTextWatcher;
 import com.smuzdev.lab_05.helper.DatePickerFragment;
 import com.smuzdev.lab_05.helper.User;
 import com.smuzdev.lab_05.models.Thing;
@@ -52,7 +54,8 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
     TextView txt_thingDiscoveryDate;
     EditText txt_thingName, txt_thingDescription, txt_thingDiscoveryPlace, txt_thingPickupPoint;
     ImageView thingImage;
-    String imageUrl, userName, userEmail;
+    String imageUrl, userName, userEmail, userPhone;
+    MaterialButton uploadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,9 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
         txt_thingDiscoveryPlace = findViewById(R.id.txtThingDiscoveryPlace);
         txt_thingPickupPoint = findViewById(R.id.txtThingPickupPoint);
         selectDateButton = findViewById(R.id.selectDateButton);
+        uploadButton = findViewById(R.id.uploadButton);
+        uploadButton.setEnabled(false);
+        uploadButton.getBackground().setAlpha(128);
 
         selectDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +80,12 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
+
+        EditText[] editTexts = {txt_thingName, txt_thingDescription, txt_thingDiscoveryPlace, txt_thingPickupPoint};
+        CustomTextWatcher textWatcher = new CustomTextWatcher(editTexts, uploadButton);
+        for (EditText editText : editTexts) {
+            editText.addTextChangedListener(textWatcher);
+        }
 
         FB_user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -87,8 +99,7 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
                         user = itemSnapshot.getValue(User.class);
                         userName = user.getName();
                         userEmail = user.getEmail();
-                        Log.d("UserName ", " : " + userName);
-                        Log.d("UserName ", " : " + userEmail);
+                        userPhone = user.getPhone();
                         break;
                     }
                 }
@@ -121,7 +132,7 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
     public void uploadImage() {
 
         StorageReference storageReference = FirebaseStorage.getInstance()
-                .getReference().child("RecipeImage").child(uri.getLastPathSegment());
+                .getReference().child("ThingImage").child(uri.getLastPathSegment());
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Thing Uploading...");
@@ -143,7 +154,7 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
 
     }
 
-    public void btnUploadRecipe(View view) {
+    public void btnUploadThing(View view) {
         uploadImage();
     }
 
@@ -157,6 +168,7 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
                 txt_thingPickupPoint.getText().toString(),
                 imageUrl,
                 userName,
+                userPhone,
                 userEmail
         );
 

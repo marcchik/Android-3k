@@ -20,7 +20,7 @@ import com.smuzdev.lab_05.R;
 public class DetailActivity extends AppCompatActivity {
 
     TextView thingName, thingDescription, thingDiscoveryDate, thingDiscoveryPlace,
-            thingPickupPoint, userName, userEmail;
+            thingPickupPoint, userName, userEmail, userPhone;
     ImageView thingImage;
     String key = "";
     String imageUrl = "";
@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         thingPickupPoint = findViewById(R.id.txtThingPickupPoint);
         userName = findViewById(R.id.txtUserName);
         userEmail = findViewById(R.id.txtUserEmail);
+        userPhone = findViewById(R.id.txtUserPhone);
         thingImage = findViewById(R.id.ivImage2);
 
         Bundle mBundle = getIntent().getExtras();
@@ -49,7 +50,9 @@ public class DetailActivity extends AppCompatActivity {
             thingDiscoveryPlace.setText(mBundle.getString("ThingDiscoveryPlace"));
             thingPickupPoint.setText(mBundle.getString("ThingPickupPoint"));
             userName.setText(mBundle.getString("UserName"));
-            userEmail.setText(mBundle.getString("UserEmail"));
+            userPhone.setText(mBundle.getString("UserEmail"));
+            userEmail.setText(mBundle.getString("UserPhone"));
+
             key = mBundle.getString("KeyValue");
             imageUrl = mBundle.getString("ThingImage");
 
@@ -87,8 +90,10 @@ public class DetailActivity extends AppCompatActivity {
                 .putExtra("thingNameKey", thingName.getText().toString())
                 .putExtra("thingDescriptionKey", thingDescription.getText().toString())
                 .putExtra("thingDiscoveryDateKey", thingDiscoveryDate.getText().toString())
+                .putExtra("thingDiscoveryPlaceKey", thingDiscoveryPlace.getText().toString())
                 .putExtra("thingPickupPointKey", thingPickupPoint.getText().toString())
                 .putExtra("userNameKey", userName.getText().toString())
+                .putExtra("userPhoneKey", userPhone.getText().toString())
                 .putExtra("userEmailKey", userEmail.getText().toString())
                 .putExtra("oldImageUrl", imageUrl)
                 .putExtra("key", key)

@@ -40,25 +40,26 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/thingDescription"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/txtThingDiscoveryPlace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="@string/thingDiscoveryPlace"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/txtThingPickupPoint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="@string/thingPickupPoint"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:textColor="@color/textColor" />
 
 
     <TextView
@@ -77,17 +78,28 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="@string/userName"
+        android:textSize="19sp"
+        android:textColor="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txtUserPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="phone"
+        android:padding="10dp"
+        android:text="@string/userPhone"
+        android:textColor="@color/textColor"
         android:textSize="19sp" />
 
     <TextView
         android:id="@+id/txtUserEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="@string/userEmail"
         android:autoLink="email"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:textColor="@color/textColor" />
 
 
     <RelativeLayout
@@ -105,7 +117,7 @@
             android:onClick="btnDeleteRecipe"
             android:text="@string/deleteThing"
             android:textColor="#ffffff"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
 
         <Button
             android:id="@+id/btnUpdate"
@@ -113,11 +125,12 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
+            android:autoLink="phone"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="btnUpdateRecipe"
             android:text="@string/updateThing"
             android:textColor="#ffffff"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
 
     </RelativeLayout>
 

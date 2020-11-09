@@ -31,10 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-        etEmail = findViewById(R.id.et_email);
-        etPassword = findViewById(R.id.et_password);
-        etName = findViewById(R.id.et_name);
-        //etPhone = findViewById(R.id.et_phone);
+        etEmail = findViewById(R.id.input_email);
+        etPassword = findViewById(R.id.input_password);
+        etName = findViewById(R.id.input_name);
+        etPhone = findViewById(R.id.input_mobile);
     }
 
     public void btnSignIn(View view) {
@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         final String name = etName.getText().toString().trim();
+        final String phone = etPhone.getText().toString().trim();
 
         if (name.isEmpty()) {
             etName.setError("Required");
@@ -60,6 +61,17 @@ public class RegisterActivity extends AppCompatActivity {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmail.setError("Please enter the valid email");
             etEmail.requestFocus();
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            etPhone.setError("Required");
+            etPhone.requestFocus();
+            return;
+        }
+        if (!Patterns.PHONE.matcher(phone).matches()) {
+            etPhone.setError("Please enter the valid email");
+            etPhone.requestFocus();
             return;
         }
 
@@ -80,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(name, /*phone,*/ email);
+                            User user = new User(name, phone, email);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

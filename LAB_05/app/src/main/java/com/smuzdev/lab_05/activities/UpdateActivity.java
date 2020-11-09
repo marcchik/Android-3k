@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smuzdev.lab_05.R;
+import com.smuzdev.lab_05.helper.CustomTextWatcher;
 import com.smuzdev.lab_05.helper.DatePickerFragment;
 import com.smuzdev.lab_05.models.Thing;
 
@@ -39,7 +41,7 @@ import java.util.Calendar;
 
 public class UpdateActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    ImageView recipeImage;
+    ImageView thingImage;
     Uri uri;
     EditText txt_thingName, txt_thingDescription, txt_thingDiscoveryPlace,
             txt_thingPickupPoint;
@@ -50,20 +52,24 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
     DatabaseReference databaseReference;
     StorageReference storageReference;
     String thingName, thingDescription, thingDiscoveryDate, thingDiscoveryPlace,
-            thingPickupPoint;
+            thingPickupPoint, userName, userPhone, userEmail;
+    MaterialButton updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
-        recipeImage = findViewById(R.id.iv_thingImage);
+        thingImage = findViewById(R.id.iv_thingImage);
         txt_thingName = findViewById(R.id.txtThingName);
         txt_thingDescription = findViewById(R.id.txtThingDescription);
         txt_thingDiscoveryDate = findViewById(R.id.txtThingDiscoveryDate);
         txt_thingDiscoveryPlace = findViewById(R.id.txtThingDiscoveryPlace);
         txt_thingPickupPoint = findViewById(R.id.txtThingPickupPoint);
         selectDateButton = findViewById(R.id.selectDateButton);
+        updateButton = findViewById(R.id.updateButton);
+        updateButton.setEnabled(false);
+        updateButton.getBackground().setAlpha(128);
 
         selectDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,22 +79,31 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
             }
         });
 
+        EditText[] editTexts = {txt_thingName, txt_thingDescription, txt_thingDiscoveryPlace, txt_thingPickupPoint};
+        CustomTextWatcher textWatcher = new CustomTextWatcher(editTexts, updateButton);
+        for (EditText editText : editTexts) {
+            editText.addTextChangedListener(textWatcher);
+        }
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
             Glide.with(UpdateActivity.this)
                     .load(bundle.getString("oldImageUrl"))
-                    .into(recipeImage);
+                    .into(thingImage);
             txt_thingName.setText(bundle.getString("thingNameKey"));
             txt_thingDescription.setText(bundle.getString("thingDescriptionKey"));
             txt_thingDiscoveryDate.setText(bundle.getString("thingDiscoveryDateKey"));
             txt_thingDiscoveryPlace.setText(bundle.getString("thingDiscoveryPlaceKey"));
             txt_thingPickupPoint.setText(bundle.getString("thingPickupPointKey"));
+            userName = bundle.getString("userNameKey");
+            userPhone = bundle.getString("userPhoneKey");
+            userEmail = bundle.getString("userEmailKey");
             key = bundle.getString("key");
             oldImageUrl = bundle.getString("oldImageUrl");
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Recipe").child(key);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Things").child(key);
 
     }
 
@@ -107,13 +122,13 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
         if (resultCode == RESULT_OK) {
 
             uri = data.getData();
-            recipeImage.setImageURI(uri);
+            thingImage.setImageURI(uri);
 
         }
         else Toast.makeText(this, "You haven't picked image", Toast.LENGTH_LONG).show();
     }
 
-    public void btnUpdateRecipe(View view) {
+    public void btnUpdateThing(View view) {
         thingName = txt_thingName.getText().toString().trim();
         thingDescription = txt_thingDescription.getText().toString().trim();
         thingDiscoveryDate = txt_thingDiscoveryDate.getText().toString().trim();
@@ -125,7 +140,7 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
         progressDialog.show();
 
         storageReference = FirebaseStorage.getInstance()
-                .getReference().child("RecipeImage").child(uri.getLastPathSegment());
+                .getReference().child("ThingImage").child(uri.getLastPathSegment());
         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -134,7 +149,7 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
                 while (!uriTask.isComplete()) ;
                 Uri urlImage = uriTask.getResult();
                 imageUrl = urlImage.toString();
-                uploadRecipe();
+                uploadThing();
                 progressDialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -146,15 +161,18 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
         });
     }
 
-    public void uploadRecipe() {
-        FirebaseUser FB_user = FirebaseAuth.getInstance().getCurrentUser();
+    public void uploadThing() {
+
         Thing thing = new Thing(
                 thingName,
                 thingDescription,
                 thingDiscoveryDate,
                 thingDiscoveryPlace,
                 thingPickupPoint,
-                imageUrl, FB_user.getDisplayName(), FB_user.getEmail()
+                imageUrl,
+                userName,
+                userPhone,
+                userEmail
         );
 
         databaseReference.setValue(thing).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -162,7 +180,10 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
             public void onComplete(@NonNull Task<Void> task) {
                 StorageReference storageReferenceNew = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
                 storageReferenceNew.delete();
-                Toast.makeText(UpdateActivity.this, "Data Updated", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(UpdateActivity.this, "Data Updated", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
