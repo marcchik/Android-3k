@@ -2,6 +2,7 @@ package com.smuzdev.lab_05.helper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.activities.DetailActivity;
+import com.smuzdev.lab_05.activities.UpdateActivity;
 import com.smuzdev.lab_05.models.Thing;
 
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
         View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_row_item, viewGroup, false);
 
         return new ThingViewHolder(mView);
+
+
     }
 
     @Override
@@ -77,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
 
     }
 
+
     private void setAnimation(View viewToAnimate, int position) {
 
         if (position > lastPosition) {
@@ -104,7 +109,7 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
     }
 }
 
-class ThingViewHolder extends RecyclerView.ViewHolder {
+class ThingViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
     ImageView imageView;
     TextView mThingTitle, mhThingDescription, mThingDiscoveryPlace;
@@ -118,5 +123,15 @@ class ThingViewHolder extends RecyclerView.ViewHolder {
         mhThingDescription = itemView.findViewById(R.id.tvThingDescription);
         mThingDiscoveryPlace = itemView.findViewById(R.id.tvThingDiscoveryPlace);
         mCardView = itemView.findViewById(R.id.myCardView);
+        mCardView.setOnCreateContextMenuListener(this);
     }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select option");
+        menu.add(this.getAdapterPosition(), 121, 0, "Edit");
+        menu.add(this.getAdapterPosition(), 122, 1, "Delete");
+    }
+
 }

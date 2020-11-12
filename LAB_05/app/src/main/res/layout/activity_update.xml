@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="@string/uploadThing"
+            android:text="@string/updateThing"
             android:onClick="btnUpdateThing"
             android:textSize="18sp" />
 

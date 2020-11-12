@@ -1,7 +1,10 @@
 package com.smuzdev.lab_05.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +55,6 @@ public class DetailActivity extends AppCompatActivity {
             userName.setText(mBundle.getString("UserName"));
             userPhone.setText(mBundle.getString("UserEmail"));
             userEmail.setText(mBundle.getString("UserPhone"));
-
             key = mBundle.getString("KeyValue");
             imageUrl = mBundle.getString("ThingImage");
 
@@ -65,22 +67,29 @@ public class DetailActivity extends AppCompatActivity {
 
     public void btnDeleteRecipe(View view) {
 
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Things");
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("Delete")
+                .setMessage("Do you want to delete item?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Things");
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageReference = storage.getReferenceFromUrl(imageUrl);
 
-        StorageReference storageReference = storage.getReferenceFromUrl(imageUrl);
-
-        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-                reference.child(key).removeValue();
-                Toast.makeText(DetailActivity.this, "Thing deleted", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-
-            }
-        });
+                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                reference.child(key).removeValue();
+                                Toast.makeText(DetailActivity.this, "Thing deleted", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Cancel", null).create().show();
 
     }
 
