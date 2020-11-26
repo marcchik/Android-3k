@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.MainActivity">
+    android:id="@+id/drawer_layout">
 
-    <EditText
-        android:id="@+id/txt_searchText"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:hint="@string/search"
-        android:textSize="22sp"
-        android:autofillHints="no"
-        android:inputType="textCapCharacters" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_searchText"
-        android:scrollbars="vertical" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#009688">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <EditText
+            android:layout_marginTop="75dp"
+            android:id="@+id/txt_searchText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="@string/search"
+            android:textSize="22sp"
+            android:autofillHints="no"
+            android:inputType="textCapCharacters" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="140dp"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_searchText"
+            android:scrollbars="vertical" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="40dp"
-        android:backgroundTint="@color/colorAccent"
-        android:onClick="btn_uploadActivity"
-        android:src="@drawable/upload"
-        android:contentDescription="@string/addNewThing" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/menu" />
 
-</RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

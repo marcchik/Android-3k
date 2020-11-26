@@ -75,10 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
-                            Toast.makeText(LoginActivity.this, "Failed to login!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Failed to login! Incorrect login or password", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 });
 

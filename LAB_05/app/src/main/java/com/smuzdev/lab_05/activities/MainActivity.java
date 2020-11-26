@@ -1,12 +1,17 @@
 package com.smuzdev.lab_05.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,11 +45,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    GridLayoutManager gridLayoutManager;
     RecyclerView mRecyclerView;
     List<Thing> thingList;
     Thing mThing;
     ProgressDialog progressDialog;
     EditText txt_search;
+
+    Toolbar toolbar;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
+
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +65,47 @@ public class MainActivity extends AppCompatActivity {
 
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
+        gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        //Drawer MENU (ВЫЖВИЖНОЕ МЕНЮ)
+        // <---- ----->
+        toolbar = findViewById(R.id.main_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.app_name,
+                R.string.app_name
+        );
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.show_list_view:
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        break;
+                    case R.id.show_table_view:
+                        gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
+                        break;
+                    case R.id.upload_thing:
+                        startActivity(new Intent(context, UploadActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
+        // <---- ----->
 
         txt_search = findViewById(R.id.txt_searchText);
 
