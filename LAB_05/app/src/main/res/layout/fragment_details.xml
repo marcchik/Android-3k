@@ -114,7 +114,6 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="btnDeleteRecipe"
             android:text="@string/deleteThing"
             android:textColor="#ffffff"
             android:textSize="19sp" />
@@ -127,7 +126,6 @@
             android:layout_margin="20dp"
             android:autoLink="phone"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="btnUpdateRecipe"
             android:text="@string/updateThing"
             android:textColor="#ffffff"
             android:textSize="19sp" />

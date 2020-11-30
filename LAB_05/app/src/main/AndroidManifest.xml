@@ -25,7 +25,6 @@
         </activity>
         <activity android:name=".activities.UpdateActivity" />
         <activity android:name=".activities.UploadActivity" />
-        <activity android:name=".activities.DetailActivity" />
         <activity android:name=".activities.MainActivity" />
     </application>
 
