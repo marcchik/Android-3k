@@ -70,21 +70,21 @@ public class ThingsListFragment extends Fragment {
         //Drawer
         // <---- ----->
         toolbar = view.findViewById(R.id.main_toolbar);
-        drawerLayout = view.findViewById(R.id.drawer_layout);
+//        drawerLayout = view.findViewById(R.id.drawer_layout);
         navigationView = view.findViewById(R.id.navigation_view);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),
-                drawerLayout,
-                toolbar,
-                R.string.app_name,
-                R.string.app_name
-        );
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+//                getActivity(),
+//                drawerLayout,
+//                toolbar,
+//                R.string.app_name,
+//                R.string.app_name
+//        );
+//
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
