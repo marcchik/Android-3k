@@ -1,7 +1,7 @@
 package com.smuzdev.lab_05.helper;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.smuzdev.lab_05.R;
-import com.smuzdev.lab_05.activities.DetailActivity;
-import com.smuzdev.lab_05.activities.UpdateActivity;
+import com.smuzdev.lab_05.fragments.DetailsFragment;
 import com.smuzdev.lab_05.models.Thing;
 
 import java.util.ArrayList;
@@ -46,13 +48,12 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ThingViewHolder thingViewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ThingViewHolder thingViewHolder, final int position) {
 
         Glide.with(mContext)
                 .load(thingList.get(position).getThingImage())
                 .into(thingViewHolder.imageView);
 
-        //dishViewHolder.imageView.setImageResource(dishList.get(position).getDishImage());
         thingViewHolder.mThingTitle.setText(thingList.get(position).getThingName());
         thingViewHolder.mhThingDescription.setText(thingList.get(position).getThingDescription());
         thingViewHolder.mThingDiscoveryPlace.setText(thingList.get(position).getThingDiscoveryPlace());
@@ -61,19 +62,28 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("ThingName", thingList.get(thingViewHolder.getAdapterPosition()).getThingName());
-                intent.putExtra("ThingDescription", thingList.get(thingViewHolder.getAdapterPosition()).getThingDescription());
-                intent.putExtra("ThingDiscoveryDate", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryDate());
-                intent.putExtra("ThingImage", thingList.get(thingViewHolder.getAdapterPosition()).getThingImage());
-                intent.putExtra("ThingDiscoveryPlace", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryPlace());
-                intent.putExtra("ThingPickupPoint", thingList.get(thingViewHolder.getAdapterPosition()).getThingPickupPoint());
-                intent.putExtra("KeyValue", thingList.get(thingViewHolder.getAdapterPosition()).getKey());
-                intent.putExtra("UserName", thingList.get(thingViewHolder.getAdapterPosition()).getUserName());
-                intent.putExtra("UserEmail", thingList.get(thingViewHolder.getAdapterPosition()).getUserEmail());
-                intent.putExtra("UserPhone", thingList.get(thingViewHolder.getAdapterPosition()).getUserPhone());
-                mContext.startActivity(intent);
+                Bundle bundle = new Bundle();
 
+                bundle.putString("ThingName", thingList.get(thingViewHolder.getAdapterPosition()).getThingName());
+                bundle.putString("ThingDescription", thingList.get(thingViewHolder.getAdapterPosition()).getThingDescription());
+                bundle.putString("ThingDiscoveryDate", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryDate());
+                bundle.putString("ThingImage", thingList.get(thingViewHolder.getAdapterPosition()).getThingImage());
+                bundle.putString("ThingDiscoveryPlace", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryPlace());
+                bundle.putString("ThingPickupPoint", thingList.get(thingViewHolder.getAdapterPosition()).getThingPickupPoint());
+                bundle.putString("KeyValue", thingList.get(thingViewHolder.getAdapterPosition()).getKey());
+                bundle.putString("UserName", thingList.get(thingViewHolder.getAdapterPosition()).getUserName());
+                bundle.putString("UserEmail", thingList.get(thingViewHolder.getAdapterPosition()).getUserEmail());
+                bundle.putString("UserPhone", thingList.get(thingViewHolder.getAdapterPosition()).getUserPhone());
+
+                DetailsFragment detailsFragment = new DetailsFragment();
+                detailsFragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flFragment, detailsFragment)
+                        .addToBackStack(null)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
             }
         });
 
