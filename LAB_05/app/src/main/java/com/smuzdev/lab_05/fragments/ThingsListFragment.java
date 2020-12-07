@@ -40,76 +40,36 @@ import com.smuzdev.lab_05.activities.MainActivity;
 import com.smuzdev.lab_05.activities.UpdateActivity;
 import com.smuzdev.lab_05.activities.UploadActivity;
 import com.smuzdev.lab_05.helper.MyAdapter;
+import com.smuzdev.lab_05.interfaces.Postman;
 import com.smuzdev.lab_05.models.Thing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ThingsListFragment extends Fragment {
+public class ThingsListFragment extends Fragment implements Postman {
 
-    GridLayoutManager gridLayoutManager;
     RecyclerView mRecyclerView;
     List<Thing> thingList;
     ProgressDialog progressDialog;
     EditText txt_search;
 
-    Toolbar toolbar;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_things_list, container, false);
 
+        GridLayoutManager fragmentGridLayoutManager = new GridLayoutManager(getActivity(), 1);
+        ((Postman) getActivity()).fragmentMail(fragmentGridLayoutManager);
+
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
-
-        //Drawer
-        // <---- ----->
-        toolbar = view.findViewById(R.id.main_toolbar);
-//        drawerLayout = view.findViewById(R.id.drawer_layout);
-        navigationView = view.findViewById(R.id.navigation_view);
-
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-//                getActivity(),
-//                drawerLayout,
-//                toolbar,
-//                R.string.app_name,
-//                R.string.app_name
-//        );
-//
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.show_list_view:
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        break;
-                    case R.id.show_table_view:
-                        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-                        mRecyclerView.setLayoutManager(gridLayoutManager);
-                        break;
-                    case R.id.upload_thing:
-                        startActivity(new Intent(getActivity(), UploadActivity.class));
-                        break;
-                }
-                return true;
-            }
-        });
-        // <---- ----->
-
         txt_search = view.findViewById(R.id.txt_searchText);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading items...");
+
 
         thingList = new ArrayList<>();
 
@@ -231,10 +191,13 @@ public class ThingsListFragment extends Fragment {
         return false;
     }
 
+    @Override
+    public void fragmentMail(GridLayoutManager fragmentGridLayoutManager) { }
 
     public void btn_uploadActivity(View view) {
 
         startActivity(new Intent(getActivity(), UploadActivity.class));
 
     }
+
 }

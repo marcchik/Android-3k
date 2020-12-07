@@ -45,19 +45,24 @@ import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.fragments.DetailsFragment;
 import com.smuzdev.lab_05.fragments.ThingsListFragment;
 import com.smuzdev.lab_05.helper.MyAdapter;
+import com.smuzdev.lab_05.interfaces.Postman;
 import com.smuzdev.lab_05.models.Thing;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Postman {
 
+    GridLayoutManager gridLayoutManager;
+    RecyclerView mRecyclerView;
+    Context context = this;
     private FrameLayout listContainer;
     private FrameLayout detailsContainer;
 
-    ThingsListFragment thingsListFragment = new ThingsListFragment();
-    DetailsFragment detailsFragment = new DetailsFragment();
+    Toolbar toolbar;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +72,78 @@ public class MainActivity extends AppCompatActivity {
         ThingsListFragment thingsListFragment = new ThingsListFragment();
         DetailsFragment detailsFragment = new DetailsFragment();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragment, thingsListFragment)
-                .addToBackStack(null)
-                .commit();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.flFragment, thingsListFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            thingsListFragment = new ThingsListFragment();
+            detailsFragment = new DetailsFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.things_container, thingsListFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.details_container, detailsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        //Drawer
+        // <---- ----->
+        toolbar = findViewById(R.id.main_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.app_name,
+                R.string.app_name
+        );
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.show_list_view:
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        break;
+                    case R.id.show_table_view:
+                        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
+                        break;
+                    case R.id.upload_thing:
+                        startActivity(new Intent(getApplicationContext(), UploadActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
+        // <---- ----->
+    }
+
+    @Override
+    public void fragmentMail(GridLayoutManager fragmentGridLayoutManager) {
+        gridLayoutManager = fragmentGridLayoutManager;
     }
 
 

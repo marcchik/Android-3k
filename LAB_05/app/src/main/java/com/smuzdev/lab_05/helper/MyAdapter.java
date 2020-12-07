@@ -1,6 +1,7 @@
 package com.smuzdev.lab_05.helper;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.fragments.DetailsFragment;
+import com.smuzdev.lab_05.fragments.ThingsListFragment;
 import com.smuzdev.lab_05.models.Thing;
 
 import java.util.ArrayList;
@@ -84,6 +86,8 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
                         .addToBackStack(null)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
+
+
             }
         });
 
