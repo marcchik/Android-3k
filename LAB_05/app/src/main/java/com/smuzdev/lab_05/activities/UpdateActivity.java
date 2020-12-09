@@ -103,7 +103,7 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
             oldImageUrl = bundle.getString("oldImageUrl");
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Things").child(key);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Things");
 
     }
 
@@ -175,7 +175,9 @@ public class UpdateActivity extends AppCompatActivity implements DatePickerDialo
                 userEmail
         );
 
-        databaseReference.setValue(thing).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        databaseReference.child(key).removeValue();
+        databaseReference.child(thing.getThingName()).setValue(thing).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 StorageReference storageReferenceNew = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);

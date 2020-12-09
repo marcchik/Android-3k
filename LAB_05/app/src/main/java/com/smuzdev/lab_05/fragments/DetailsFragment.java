@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.smuzdev.lab_05.R;
+import com.smuzdev.lab_05.activities.MainActivity;
 import com.smuzdev.lab_05.activities.UpdateActivity;
 
 
@@ -65,6 +67,7 @@ public class DetailsFragment extends Fragment {
             userEmail.setText(mBundle.getString("UserPhone"));
             key = mBundle.getString("KeyValue");
             imageUrl = mBundle.getString("ThingImage");
+            Log.d("tag_debug_lab", key);
 
             Glide.with(this)
                     .load(mBundle.getString("ThingImage"))
@@ -108,11 +111,16 @@ public class DetailsFragment extends Fragment {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         reference.child(key).removeValue();
-                                        Toast.makeText(getActivity(), "Thing deleted", Toast.LENGTH_SHORT).show();
-                                        //startActivity(new Intent(getActivity(), MainActivity.class));
-                                        //finish();
+
                                     }
+
                                 });
+
+                                Toast.makeText(getActivity(), "Thing deleted", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), MainActivity.class));
+                                getActivity().finish();
+
+
                             }
                         })
                         .setNegativeButton("Cancel", null).create().show();
@@ -123,48 +131,5 @@ public class DetailsFragment extends Fragment {
         return view;
     }
 
-    public void btnDeleteRecipe(View view) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder
-                .setTitle("Delete")
-                .setMessage("Do you want to delete item?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Things");
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageReference = storage.getReferenceFromUrl(imageUrl);
-
-                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                reference.child(key).removeValue();
-                                Toast.makeText(getActivity(), "Thing deleted", Toast.LENGTH_SHORT).show();
-                                //startActivity(new Intent(getActivity(), MainActivity.class));
-                                //finish();
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton("Cancel", null).create().show();
-
-    }
-
-    public void btnUpdateRecipe(View view) {
-
-        startActivity(new Intent(getActivity(), UpdateActivity.class)
-                .putExtra("thingNameKey", thingName.getText().toString())
-                .putExtra("thingDescriptionKey", thingDescription.getText().toString())
-                .putExtra("thingDiscoveryDateKey", thingDiscoveryDate.getText().toString())
-                .putExtra("thingDiscoveryPlaceKey", thingDiscoveryPlace.getText().toString())
-                .putExtra("thingPickupPointKey", thingPickupPoint.getText().toString())
-                .putExtra("userNameKey", userName.getText().toString())
-                .putExtra("userPhoneKey", userPhone.getText().toString())
-                .putExtra("userEmailKey", userEmail.getText().toString())
-                .putExtra("oldImageUrl", imageUrl)
-                .putExtra("key", key)
-        );
-    }
 
 }

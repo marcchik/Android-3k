@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements Postman {
 
     GridLayoutManager gridLayoutManager;
+    ThingsListFragment thingsListFragment;
     RecyclerView mRecyclerView;
     Context context = this;
     private FrameLayout listContainer;
@@ -69,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements Postman {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ThingsListFragment thingsListFragment = new ThingsListFragment();
+        Log.i("testLog", "Tetsing onCreate");
+
+        thingsListFragment = new ThingsListFragment();
         DetailsFragment detailsFragment = new DetailsFragment();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -80,25 +84,32 @@ public class MainActivity extends AppCompatActivity implements Postman {
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            thingsListFragment = new ThingsListFragment();
-            detailsFragment = new DetailsFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.things_container, thingsListFragment)
                     .addToBackStack(null)
                     .commit();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details_container, detailsFragment)
-                    .addToBackStack(null)
-                    .commit();
         }
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
+            finishAffinity();
+            startActivity(mIntent);
+        }
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mRecyclerView = findViewById(R.id.recyclerView);
+
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         //Drawer

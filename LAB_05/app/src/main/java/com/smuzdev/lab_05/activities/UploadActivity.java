@@ -132,7 +132,7 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
     public void uploadImage() {
 
         StorageReference storageReference = FirebaseStorage.getInstance()
-                .getReference().child("ThingImage").child(uri.getLastPathSegment());
+                .getReference().child("ThingImage").child(uri.getLastPathSegment() + System.currentTimeMillis());
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Thing Uploading...");

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,8 +54,6 @@ public class ThingsListFragment extends Fragment implements Postman {
     List<Thing> thingList;
     ProgressDialog progressDialog;
     EditText txt_search;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,6 +146,7 @@ public class ThingsListFragment extends Fragment implements Postman {
     public boolean onContextItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case 121:
+
                 startActivity(new Intent(getActivity(), UpdateActivity.class)
                         .putExtra("thingNameKey", thingList.get(item.getGroupId()).getThingName())
                         .putExtra("thingDescriptionKey", thingList.get(item.getGroupId()).getThingDescription())

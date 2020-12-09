@@ -3,6 +3,7 @@ package com.smuzdev.lab_05.helper;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
 
+    FragmentManager fragmentManager;
     private Context mContext;
     private List<Thing> thingList;
     private int lastPosition = -1;
@@ -66,6 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
 
                 Bundle bundle = new Bundle();
 
+
                 bundle.putString("ThingName", thingList.get(thingViewHolder.getAdapterPosition()).getThingName());
                 bundle.putString("ThingDescription", thingList.get(thingViewHolder.getAdapterPosition()).getThingDescription());
                 bundle.putString("ThingDiscoveryDate", thingList.get(thingViewHolder.getAdapterPosition()).getThingDiscoveryDate());
@@ -76,18 +79,17 @@ public class MyAdapter extends RecyclerView.Adapter<ThingViewHolder> {
                 bundle.putString("UserName", thingList.get(thingViewHolder.getAdapterPosition()).getUserName());
                 bundle.putString("UserEmail", thingList.get(thingViewHolder.getAdapterPosition()).getUserEmail());
                 bundle.putString("UserPhone", thingList.get(thingViewHolder.getAdapterPosition()).getUserPhone());
+                Log.d("tag_debug_lab", thingList.get(thingViewHolder.getAdapterPosition()).getKey());
 
                 DetailsFragment detailsFragment = new DetailsFragment();
                 detailsFragment.setArguments(bundle);
 
-                FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.flFragment, detailsFragment)
                         .addToBackStack(null)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-
-
             }
         });
 
