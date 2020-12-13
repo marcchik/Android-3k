@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements Postman {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("testLog", "Tetsing onCreate");
+        Log.i("testLog", "Testing onCreate");
 
         thingsListFragment = new ThingsListFragment();
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements Postman {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.flFragment, thingsListFragment)
-                    .addToBackStack(null)
                     .commit();
         }
 
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements Postman {
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.things_container, thingsListFragment)
-                    .addToBackStack(null)
                     .commit();
         }
 
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements Postman {
     protected void onStart() {
         super.onStart();
         mRecyclerView = findViewById(R.id.recyclerView);
-
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         //Drawer

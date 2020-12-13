@@ -8,7 +8,10 @@ import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.helper.CustomTextWatcher;
+import com.smuzdev.lab_05.helper.DatabaseHelper;
 import com.smuzdev.lab_05.helper.DatePickerFragment;
 import com.smuzdev.lab_05.helper.User;
 import com.smuzdev.lab_05.models.Thing;
@@ -56,6 +60,10 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
     ImageView thingImage;
     String imageUrl, userName, userEmail, userPhone;
     MaterialButton uploadButton;
+
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,4 +212,27 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
         txt_thingDiscoveryDate.setText(currentDateString);
 
     }
+
+//    class SaveToDatabase extends AsyncTask<Thing, Void, Void> {
+//        @Override
+//        protected Void doInBackground(Thing... things) {
+//
+//            Thing thing = new Thing(
+//                    txt_thingName.getText().toString(),
+//                    txt_thingDescription.getText().toString(),
+//                    txt_thingDiscoveryDate.getText().toString(),
+//                    txt_thingDiscoveryPlace.getText().toString(),
+//                    txt_thingPickupPoint.getText().toString(),
+//                    imageUrl,
+//                    userName,
+//                    userPhone,
+//                    userEmail
+//            );
+//
+//            dbHelper.insertThing(db, thing.getId(), thing.getThingName(), thing.getThingDescription(),
+//                    thing.getThingDiscoveryDate(), thing.getThingDiscoveryPlace(), thing.getThingPickupPoint(),
+//                    thing.getThingImage(), thing.getUserName(), thing.getUserPhone(), thing.getUserEmail());
+//            return null;
+//
+//        }
 }
