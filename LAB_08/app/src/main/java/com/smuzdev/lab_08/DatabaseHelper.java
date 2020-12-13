@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
@@ -33,7 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
-                COLUMN_DISCOVERED_PLACE + " TEXT);";
+                COLUMN_DISCOVERED_PLACE + " TEXT, " +
+                COLUMN_IMAGE + " BLOB);";
         db.execSQL(query);
     }
 
@@ -43,13 +46,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addBook(String title, String description, String discoveredPlace) {
+    void addThing(String title, String description, String discoveredPlace, byte[] image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DESCRIPTION, description);
         cv.put(COLUMN_DISCOVERED_PLACE, discoveredPlace);
+        cv.put(COLUMN_IMAGE, image);
+
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
             Toast.makeText(context, "Failed :(", Toast.LENGTH_LONG).show();
@@ -98,5 +103,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
 
+    }
+
+    ArrayList<byte[]> selectImageById(String id) {
+        String query = "SELECT " + COLUMN_IMAGE + " WHERE " + COLUMN_ID + "=" + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<byte[]> thing_image = null;
+
+        Cursor cursor;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                thing_image.add(cursor.getBlob(4));
+            }
+            cursor.close();
+        }
+        return thing_image;
     }
 }

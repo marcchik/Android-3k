@@ -5,18 +5,26 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class UpdateActivity extends AppCompatActivity {
 
     EditText title_input, description_input, discoveredPlace_input;
+    ImageView image;
     Button update_button, delete_button;
-
+    DatabaseHelper databaseHelper;
     String id, title, description, discoveredPlace;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +66,24 @@ public class UpdateActivity extends AppCompatActivity {
     void getAndSetIntentData() {
         if (getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
                 getIntent().hasExtra("description") && getIntent().hasExtra("discoveredPlace")) {
+
             //Getting Intent Data
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
             description = getIntent().getStringExtra("description");
             discoveredPlace = getIntent().getStringExtra("discoveredPlace");
 
+            ArrayList<byte[]> thing_image = databaseHelper.selectImageById(id);
+
+            byte[] byteImage = thing_image.get(0);
+            Bitmap bitmapImage = DbBitmapUtility.getImage(byteImage);
+            image.setImageBitmap(bitmapImage);
+
             //Setting Intent Data
             title_input.setText(title);
             description_input.setText(description);
             discoveredPlace_input.setText(discoveredPlace);
+
         } else {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }

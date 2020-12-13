@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +18,7 @@ public class AddActivity extends AppCompatActivity {
 
     EditText title_input, description_input, discoveredPlace_input;
     Button add_button, select_image_button;
+    byte[] byteImage;
     ImageView image;
     Uri uri;
     String imageUrl;
@@ -36,9 +39,11 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseHelper databaseHelper = new DatabaseHelper(AddActivity.this);
-                databaseHelper.addBook(title_input.getText().toString().trim(),
+                databaseHelper.addThing(title_input.getText().toString().trim(),
                         description_input.getText().toString().trim(),
-                        discoveredPlace_input.getText().toString().trim());
+                        discoveredPlace_input.getText().toString().trim(),
+                        byteImage);
+
             }
         });
 
@@ -59,6 +64,11 @@ public class AddActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             uri = data.getData();
             image.setImageURI(uri);
+
+            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            byteImage = DbBitmapUtility.getBytes(bitmap);
+
         } else Toast.makeText(this, "You haven't picked image", Toast.LENGTH_LONG).show();
     }
 }
