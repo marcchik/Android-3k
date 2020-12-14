@@ -13,16 +13,15 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
     private static final String DATABASE_NAME = "GoodsFinder.db";
     private static final int DATABASE_VERSION = 1;
-
     private static final String TABLE_NAME = "Things";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "thing_title";
     private static final String COLUMN_DESCRIPTION = "thing_description";
     private static final String COLUMN_DISCOVERED_PLACE = "thing_discovered_place";
     private static final String COLUMN_IMAGE = "thing_image";
+    private Context context;
 
     DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -74,12 +73,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    void updateData(String row_id, String title, String description, String discoveredPlace) {
+    void updateData(String row_id, String title, String description, String discoveredPlace, byte[] image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DESCRIPTION, description);
         cv.put(COLUMN_DISCOVERED_PLACE, discoveredPlace);
+        cv.put(COLUMN_IMAGE, image);
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if (result == -1) {
@@ -106,15 +106,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     ArrayList<byte[]> selectImageById(String id) {
-        String query = "SELECT " + COLUMN_IMAGE + " WHERE " + COLUMN_ID + "=" + id;
+        String query = "SELECT " + COLUMN_IMAGE + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id;
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<byte[]> thing_image = null;
+        ArrayList<byte[]> thing_image = new ArrayList<>();
 
         Cursor cursor;
         if (db != null) {
             cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
-                thing_image.add(cursor.getBlob(4));
+                thing_image.add(cursor.getBlob(0));
             }
             cursor.close();
         }

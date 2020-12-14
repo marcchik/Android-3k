@@ -21,7 +21,6 @@ public class AddActivity extends AppCompatActivity {
     byte[] byteImage;
     ImageView image;
     Uri uri;
-    String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
