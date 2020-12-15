@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LAB_08</string>
+    <string name="id">Thing ID</string>
+    <string name="title">Thing Title</string>
+    <string name="description">Thing Description</string>
+    <string name="discovered_place">Thing Discovered Place</string>
+    <string name="info">Information about new thing:</string>
+    <string name="no_data">No data</string>
+
+    <string name="add_button">Add</string>
+    <string name="select_image_button">Select image</string>
+    <string name="delete_button">Delete</string>
+    <string name="update_button">Update</string>
+</resources>
