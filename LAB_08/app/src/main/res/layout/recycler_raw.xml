@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/mainLayout">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,17 +21,17 @@
                 android:id="@+id/ivThingImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:scaleType="fitStart"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_photo"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/thing_id_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text="@string/id"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -41,12 +40,14 @@
 
             <TextView
                 android:id="@+id/thing_title_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Title"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/title"
                 android:textColor="#000000"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivThingImage"
@@ -55,9 +56,11 @@
 
             <TextView
                 android:id="@+id/thing_description_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/description"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/thing_title_txt"
                 app:layout_constraintTop_toBottomOf="@+id/thing_title_txt" />
@@ -66,10 +69,10 @@
                 android:id="@+id/thing_discovered_place_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123-4"
+                android:text="@string/discovered_place"
                 android:textSize="18sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

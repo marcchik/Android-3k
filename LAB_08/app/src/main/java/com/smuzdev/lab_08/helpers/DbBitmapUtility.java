@@ -1,4 +1,4 @@
-package com.smuzdev.lab_08;
+package com.smuzdev.lab_08.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

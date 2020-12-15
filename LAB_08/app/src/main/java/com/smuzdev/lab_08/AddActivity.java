@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.smuzdev.lab_08.helpers.DbAsyncInsertTask;
+import com.smuzdev.lab_08.helpers.DbBitmapUtility;
+
 public class AddActivity extends AppCompatActivity {
 
     EditText title_input, description_input, discoveredPlace_input;
@@ -38,11 +41,31 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseHelper databaseHelper = new DatabaseHelper(AddActivity.this);
+
+                if (title_input.getText().toString().isEmpty()) {
+                    title_input.setError("Enter thing title");
+                    return;
+                }
+
+                if (description_input.getText().toString().isEmpty()) {
+                    description_input.setError("Enter Thing Description");
+                    return;
+                }
+
+                if (discoveredPlace_input.getText().toString().isEmpty()) {
+                    discoveredPlace_input.setError("Enter Thing Discovered Place");
+                    return;
+                }
+
+                if (image == null) {
+                    Toast.makeText(AddActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 databaseHelper.addThing(title_input.getText().toString().trim(),
                         description_input.getText().toString().trim(),
                         discoveredPlace_input.getText().toString().trim(),
                         byteImage);
-
             }
         });
 
@@ -70,4 +93,5 @@ public class AddActivity extends AppCompatActivity {
 
         } else Toast.makeText(this, "You haven't picked image", Toast.LENGTH_LONG).show();
     }
+
 }

@@ -13,17 +13,17 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "GoodsFinder.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_NAME = "Things";
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_TITLE = "thing_title";
-    private static final String COLUMN_DESCRIPTION = "thing_description";
-    private static final String COLUMN_DISCOVERED_PLACE = "thing_discovered_place";
-    private static final String COLUMN_IMAGE = "thing_image";
-    private Context context;
+    public static final String DATABASE_NAME = "GoodsFinder.db";
+    public static final int DATABASE_VERSION = 1;
+    public static final String TABLE_NAME = "Things";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_TITLE = "thing_title";
+    public static final String COLUMN_DESCRIPTION = "thing_description";
+    public static final String COLUMN_DISCOVERED_PLACE = "thing_discovered_place";
+    public static final String COLUMN_IMAGE = "thing_image";
+    public Context context;
 
-    DatabaseHelper(@Nullable Context context) {
+    public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
