@@ -62,10 +62,23 @@ public class AddActivity extends AppCompatActivity {
                     return;
                 }
 
+                //СИНХРОННЫЙ INSERT
                 databaseHelper.addThing(title_input.getText().toString().trim(),
                         description_input.getText().toString().trim(),
                         discoveredPlace_input.getText().toString().trim(),
                         byteImage);
+
+                //ASYNC INSERT
+                ThingModel thingModel = new ThingModel(
+                        title_input.getText().toString().trim(),
+                        description_input.getText().toString().trim(),
+                        discoveredPlace_input.getText().toString().trim(),
+                        byteImage);
+
+                DbAsyncInsertTask asyncInsertTask = new DbAsyncInsertTask(AddActivity.this);
+                asyncInsertTask.execute(thingModel);
+
+
             }
         });
 

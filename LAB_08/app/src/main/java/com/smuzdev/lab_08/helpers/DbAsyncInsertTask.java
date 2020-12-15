@@ -9,11 +9,12 @@ import android.widget.Toast;
 
 import com.smuzdev.lab_08.DatabaseHelper;
 import com.smuzdev.lab_08.Thing;
+import com.smuzdev.lab_08.ThingModel;
 
 import java.util.ArrayList;
 
 
-public class DbAsyncInsertTask extends AsyncTask<Thing, Void, Void> {
+public class DbAsyncInsertTask extends AsyncTask<ThingModel, Void, Void> {
 
     private static final String TAG = "LAB8_DEBUG";
     Context context;
@@ -48,13 +49,13 @@ public class DbAsyncInsertTask extends AsyncTask<Thing, Void, Void> {
 
     //Код, выполняемый в фоновом потоке
     @Override
-    protected Void doInBackground(Thing... things) {
+    protected Void doInBackground(ThingModel... thingModels) {
         Log.d(TAG, "onProgressUpdate: TASK STARTED!");
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_TITLE, things[0].getThing_title().);
-        cv.put(DatabaseHelper.COLUMN_DESCRIPTION, description);
-        cv.put(DatabaseHelper.COLUMN_DISCOVERED_PLACE, discoveredPlace);
-        cv.put(DatabaseHelper.COLUMN_IMAGE, image);
+        cv.put(DatabaseHelper.COLUMN_TITLE, thingModels[0].title);
+        cv.put(DatabaseHelper.COLUMN_DESCRIPTION, thingModels[0].description);
+        cv.put(DatabaseHelper.COLUMN_DISCOVERED_PLACE, thingModels[0].discoveredPlace);
+        cv.put(DatabaseHelper.COLUMN_IMAGE, thingModels[0].byteImage);
 
         long result = db.insert(DatabaseHelper.TABLE_NAME, null, cv);
         if (result == -1) {
