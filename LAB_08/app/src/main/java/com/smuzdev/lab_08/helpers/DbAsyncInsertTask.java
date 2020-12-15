@@ -5,13 +5,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.smuzdev.lab_08.DatabaseHelper;
-import com.smuzdev.lab_08.Thing;
 import com.smuzdev.lab_08.ThingModel;
-
-import java.util.ArrayList;
 
 
 public class DbAsyncInsertTask extends AsyncTask<ThingModel, Void, Void> {
@@ -57,13 +53,7 @@ public class DbAsyncInsertTask extends AsyncTask<ThingModel, Void, Void> {
         cv.put(DatabaseHelper.COLUMN_DISCOVERED_PLACE, thingModels[0].discoveredPlace);
         cv.put(DatabaseHelper.COLUMN_IMAGE, thingModels[0].byteImage);
 
-        long result = db.insert(DatabaseHelper.TABLE_NAME, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed :(", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "Successfully added!", Toast.LENGTH_LONG).show();
-        }
-
+        db.insert(DatabaseHelper.TABLE_NAME, null, cv);
         return null;
     }
 }
