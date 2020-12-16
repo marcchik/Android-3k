@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LAB_10</string>
+    <string name="type">Event type</string>
+    <string name="place">Event place</string>
+    <string name="time">Event time</string>
+    <string name="prize">Prize</string>
+</resources>
