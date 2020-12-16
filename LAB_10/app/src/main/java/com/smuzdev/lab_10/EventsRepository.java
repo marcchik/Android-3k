@@ -35,7 +35,7 @@ public class EventsRepository {
         new DeleteEventsAsyncTask(eventsDao).execute(events);
     }
 
-    public Events getById(long id) {
+    public Events getById(Integer id) {
         try {
             return new GetEventsByIdAsyncTask(eventsDao).execute(id).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -84,13 +84,13 @@ public class EventsRepository {
         }
     }
 
-    private static class GetEventsByIdAsyncTask extends AsyncTask<Long, Void, Events> {
+    private static class GetEventsByIdAsyncTask extends AsyncTask<Integer, Void, Events> {
         private EventsDao eventsDao;
         private GetEventsByIdAsyncTask(EventsDao eventsDao) {
             this.eventsDao = eventsDao;
         }
         @Override
-        protected Events doInBackground(Long... id) {
+        protected Events doInBackground(Integer... id) {
             return eventsDao.getById(id[0]);
         }
     }

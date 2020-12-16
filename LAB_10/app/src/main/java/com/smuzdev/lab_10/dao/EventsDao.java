@@ -18,7 +18,7 @@ public interface EventsDao {
     LiveData<List<Events>> getAll();
 
     @Query("select * from Events where id = :id")
-    Events getById(long id);
+    Events getById(Integer id);
 
     @Insert
     void insert(Events events);

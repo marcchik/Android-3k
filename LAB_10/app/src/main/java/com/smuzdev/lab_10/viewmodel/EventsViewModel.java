@@ -33,7 +33,7 @@ public class EventsViewModel extends AndroidViewModel {
         eventsRepository.delete(events);
     }
 
-    public Events getById(long id) {
+    public Events getById(Integer id) {
         return eventsRepository.getById(id);
     }
 

@@ -1,5 +1,6 @@
 package com.smuzdev.lab_10.model;
 
+import androidx.annotation.IntRange;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class Events {
 
     @PrimaryKey
-    private int id;
+    private Integer id;
     private String time;
     private String place;
     private String eventType;
@@ -21,7 +22,7 @@ public class Events {
     }
 
     //GETTERS
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -44,7 +45,7 @@ public class Events {
     //SETTERS
 
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
