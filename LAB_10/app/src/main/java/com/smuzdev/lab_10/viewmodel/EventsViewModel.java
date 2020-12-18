@@ -18,7 +18,7 @@ public class EventsViewModel extends AndroidViewModel {
     public EventsViewModel(@NonNull Application application) {
         super(application);
         eventsRepository = new EventsRepository(application);
-        allEvents = eventsRepository.getAllContacts();
+        allEvents = eventsRepository.getAllEvents();
     }
 
     public void insert(Events events) {
@@ -37,7 +37,7 @@ public class EventsViewModel extends AndroidViewModel {
         return eventsRepository.getById(id);
     }
 
-    public LiveData<List<Events>> getAllContacts() {
+    public LiveData<List<Events>> getAllEvents() {
         return allEvents;
     }
 }

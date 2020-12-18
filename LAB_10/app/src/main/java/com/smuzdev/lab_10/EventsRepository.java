@@ -44,7 +44,7 @@ public class EventsRepository {
         return null;
     }
 
-    public LiveData<List<Events>> getAllContacts() {
+    public LiveData<List<Events>> getAllEvents() {
         return allEvents;
     }
 

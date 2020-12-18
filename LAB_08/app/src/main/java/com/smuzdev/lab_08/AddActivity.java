@@ -79,7 +79,6 @@ public class AddActivity extends AppCompatActivity {
                 asyncInsertTask.execute(thingModel);
                 startActivity(new Intent(AddActivity.this, MainActivity.class));
 
-
             }
         });
 

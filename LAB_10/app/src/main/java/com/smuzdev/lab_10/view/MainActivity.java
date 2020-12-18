@@ -48,15 +48,13 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        model.getAllContacts().observe(this, new Observer<List<Events>>() {
+        model.getAllEvents().observe(this, new Observer<List<Events>>() {
             @Override
             public void onChanged(List<Events> contacts) {
                 final EventsAdapter adapter = new EventsAdapter(MainActivity.this, contacts);
                 recyclerView.setAdapter(adapter);
             }
         });
-
 
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
