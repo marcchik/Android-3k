@@ -11,9 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,14 +37,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smuzdev.lab_05.R;
 import com.smuzdev.lab_05.helper.CustomTextWatcher;
-import com.smuzdev.lab_05.helper.DatabaseHelper;
 import com.smuzdev.lab_05.helper.DatePickerFragment;
 import com.smuzdev.lab_05.helper.User;
 import com.smuzdev.lab_05.models.Thing;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.HashMap;
 
 
 public class UploadActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -61,7 +59,6 @@ public class UploadActivity extends AppCompatActivity implements DatePickerDialo
     String imageUrl, userName, userEmail, userPhone;
     MaterialButton uploadButton;
 
-    DatabaseHelper dbHelper;
     SQLiteDatabase db;
     Cursor cursor;
 
